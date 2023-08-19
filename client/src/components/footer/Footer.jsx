@@ -5,17 +5,17 @@ const Footer = () => {
     {
       name: "GitHub",
       icon: <FaGithub />,
-      link: "https://github.com/yourusername",
+      link: "https://github.com/Vivek3072",
     },
     {
       name: "LinkedIn",
       icon: <FaLinkedin />,
-      link: "https://www.linkedin.com/in/yourusername/",
+      link: "https://www.linkedin.com/in/vivek-srivas/",
     },
     {
       name: "Instagram",
       icon: <FaInstagram />,
-      link: "https://www.instagram.com/yourusername/",
+      link: "https://www.instagram.com/vvk_srvstv_/",
     },
   ];
 
