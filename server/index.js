@@ -28,5 +28,5 @@ app.use("/api/auth", authRouter);
 app.use("/api/tweets", tweetRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port} 😍`.yellow);
 });
