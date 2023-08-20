@@ -39,10 +39,10 @@ const Sidebar = () => {
       <div className="md:mt-auto md:mb-5 w-full">
         <button
           onClick={handleLogout}
-          className="w-full bg-blue-500 flex felx-row items-center justify-center space-x-2 hover:bg-blue-600 text-white py-5 px-5 rounded-full w-full text-center"
+          className="w-full bg-blue-500 flex felx-row items-center justify-center space-x-2 hover:bg-blue-600 text-white p-3 md:py-5 md:px-5 rounded-full w-full text-center"
         >
           <FaSignOutAlt />
-          <div className="text-xl">Logout</div>
+          <div className="text-lg md:text-xl">Logout</div>
         </button>
       </div>
     </div>
