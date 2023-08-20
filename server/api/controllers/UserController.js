@@ -2,20 +2,21 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/UserModel");
+import ErrorRespond from "../../helpers/ErrorRespond";
 
 class UserController {
   static registerUser = asyncHandler(async (req, res) => {
     const { username, email, password, confirm_password } = req.body;
     if (!username || !email || !password || !confirm_password) {
-      res.status(404).send({ message: "All fields are mandatory!" });
+      return ErrorRespond(res, 404, "Please enter a valid email.");
     }
     if (password !== confirm_password) {
-      res.status(404).send({ message: "Passwords did not match!" });
+      return ErrorRespond(res, 404, "Passwords did not match!");
     }
-    
+
     const userAvailable = await User.findOne({ email });
     if (userAvailable) {
-      res.status(400).send({ message: "User already registered!" });
+      return ErrorRespond(res, 400, "User already registered!");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -31,18 +32,18 @@ class UserController {
         email: newUser.email,
         username: newUser.username,
       });
-    else res.send({ message: "User data invalid!" });
+    else return ErrorRespond(res, 400, "User data invalid!");
   });
 
   static loginUser = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
-      res.status(400).send({ message: "All fields are mandatory!" });
+      return ErrorRespond(res, 400, "All fields are mandatory!");
     }
 
     const user = await User.findOne({ username });
     if (!user) {
-      res.status(404).send({ message: "User not found!" });
+      return ErrorRespond(res, 404, "User not found!");
     }
 
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -58,7 +59,7 @@ class UserController {
       );
       res.status(200).json({ accessToken });
     } else {
-      res.status(401).send({ message: "Incorrect password!" });
+      return ErrorRespond(res, 401, "Incorrect password!");
     }
   });
 
@@ -70,17 +71,17 @@ class UserController {
     const { username, followUser } = req.body;
 
     if (!username || !followUser) {
-      res.status(404).send({ message: "Please provide all details!" });
+      return ErrorRespond(res, 404, "Please provide all details!");
     }
 
     const userToFollowData = await User.find({ username: followUser });
     if (!userToFollowData) {
-      res.status(404).send({ message: "User doesn't exists! Cannot Follow!" });
+      return ErrorRespond(res, 404, "User doesn't exists! Cannot Follow!");
     }
 
     const currentUser = await User.find({ username });
     if (!currentUser) {
-      res.status(404).send({ message: "User not found exists!" });
+      return ErrorRespond(res, 404, "User doesn't exists!");
     }
 
     // Checking if the current user is already following the intended follow user
@@ -90,7 +91,7 @@ class UserController {
         return user.username === followUser;
       })
     ) {
-      res.status(400).send({ message: "You are already following this user!" });
+      return ErrorRespond(res, 400, "You are already following this user!");
     }
 
     const updatedFollowings = await User.findOneAndUpdate(
@@ -99,7 +100,7 @@ class UserController {
       { new: true }
     );
     if (!updatedFollowings) {
-      res.status(404).send({ message: "Cannot follow user!" });
+      return ErrorRespond(res, 404, "Cannot follow user!");
     }
     await updatedFollowings.save();
     res.json({ message: "User followed successfully." });
