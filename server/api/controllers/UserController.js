@@ -10,8 +10,9 @@ class UserController {
       res.status(404).send({ message: "All fields are mandatory!" });
     }
     if (password !== confirm_password) {
-      res.status(404).send({ message: "All fields are mandatory!" });
+      res.status(404).send({ message: "Passwords did not match!" });
     }
+    
     const userAvailable = await User.findOne({ email });
     if (userAvailable) {
       res.status(400).send({ message: "User already registered!" });
@@ -40,6 +41,9 @@ class UserController {
     }
 
     const user = await User.findOne({ username });
+    if (!user) {
+      res.status(404).send({ message: "User not found!" });
+    }
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken = jwt.sign(
@@ -54,7 +58,7 @@ class UserController {
       );
       res.status(200).json({ accessToken });
     } else {
-      res.status(401).send({ message: "Email or password is not valid!" });
+      res.status(401).send({ message: "Incorrect password!" });
     }
   });
 
