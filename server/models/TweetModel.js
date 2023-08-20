@@ -3,7 +3,9 @@ const mongoose = require("mongoose");
 const tweetSchema = new mongoose.Schema({
   username: {
     type: String,
-    ref: "User", // Reference to the User model
+    required: true,
+    // unique: true,
+    // ref: "User", // Reference to the User model
   },
   tweet_message: {
     type: String,
