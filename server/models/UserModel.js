@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Please add the user name"],
+      required: [true, "Please add the email"],
       unique: [true, "Username already taken"],
     },
     password: {
@@ -20,7 +20,6 @@ const userSchema = mongoose.Schema(
       {
         username: {
           type: String,
-          unique: true,
         },
       },
     ],
@@ -29,5 +28,16 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.methods.generateAuthToken = function (userId) {
+  const token = jwt.sign({
+      _id: userId,
+      username: this.username,
+      email: this.email,
+    },
+    process.env.ACCESS_TOKEN_SECRET
+  );
+  return token;
+};
 
 module.exports = mongoose.model("User", userSchema);

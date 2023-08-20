@@ -7,10 +7,11 @@ const ErrorRespond = require("../../helpers/ErrorRespond");
 class UserController {
   static registerUser = asyncHandler(async (req, res) => {
     const { username, email, password, confirm_password } = req.body;
-    if (!username || !email || !password || !confirm_password) {
-      return ErrorRespond(res, 404, "Please enter a valid email.");
-    }
-    if (password !== confirm_password) {
+
+    if (!username) return ErrorRespond(res, 400, "Username is required");
+    else if (!email) return ErrorRespond(res, 400, "Email is required");
+    else if (!password) return ErrorRespond(res, 400, "Password is required");
+    else if (password !== confirm_password) {
       return ErrorRespond(res, 404, "Passwords did not match!");
     }
 
@@ -24,15 +25,28 @@ class UserController {
     const newUser = await User.create({
       username,
       email,
+      following: [],
       password: hashedPassword,
     });
-    if (newUser)
+    if (newUser) {
+      const accessToken = jwt.sign(
+        {
+          user: {
+            username: newUser.username,
+            id: newUser._id,
+          },
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "15m" }
+      );
+
       res.status(201).json({
-        _id: newUser.id,
+        _id: newUser._id,
         email: newUser.email,
         username: newUser.username,
+        accessToken: accessToken,
       });
-    else return ErrorRespond(res, 400, "User data invalid!");
+    } else return ErrorRespond(res, 400, "User data invalid!");
   });
 
   static loginUser = asyncHandler(async (req, res) => {

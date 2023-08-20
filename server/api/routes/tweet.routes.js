@@ -10,10 +10,10 @@ const {
 } = require("../controllers/TweetController");
 const validateToken = require("../../middlewares/ValidateToken");
 
-router.get("/", getTweets);
-router.get("/:username", getMyTweets);
-router.post("/create", createTweet);
-router.put("/:id", updateTweet);
-router.delete("/:id", deleteTweet);
+router.get("/", validateToken, getTweets);
+router.get("/:username", validateToken, getMyTweets);
+router.post("/create", validateToken, createTweet);
+router.put("/:id", validateToken, updateTweet);
+router.delete("/:id", validateToken, deleteTweet);
 
 module.exports = router;
