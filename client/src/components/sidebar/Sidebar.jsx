@@ -1,29 +1,39 @@
 import { FaHome, FaSearch, FaEnvelope, FaUser } from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import useToken from "../../hooks/useToken";
+import Logo from "../../assets/Logo.svg";
 
 const Sidebar = () => {
   const { removeToken } = useToken();
   const sidebarItems = [
-    { icon: <FaHome />, text: "Home" },
-    { icon: <FaSearch />, text: "Explore" },
-    { icon: <FaEnvelope />, text: "Messages" },
-    { icon: <FaUser />, text: "Profile" },
+    { icon: <FaHome />, text: "Home", linkTo: "/" },
+    { icon: <FaSearch />, text: "Explore", linkTo: "/" },
+    { icon: <FaEnvelope />, text: "Messages", linkTo: "/message" },
+    { icon: <FaUser />, text: "Profile", linkTo: "/profile" },
   ];
-  function handleLogout(e){
+  function handleLogout(e) {
     removeToken();
-    e.preventDefault()
+    e.preventDefault();
     window.location.reload();
   }
   return (
-    <div className="h-fit md:h-full w-full flex md:flex-col flex-row overflow-x-auto w-64 shadow-sm rounded p-5">
+    <div className="h-fit md:h-screen w-full flex items-center md:items-start md:flex-col flex-row overflow-x-auto w-full shadow-sm rounded px-2 md:space-x-0 space-x-3">
+      <div className="text-xl my-5 space-x-1 flex flex-row items-center justify-center">
+        <img src={Logo} className="w-8 h-8" alt="Logo" />
+        <div>Tooter</div>
+      </div>
       {sidebarItems.map((item, index) => (
-        <SidebarItem key={index} icon={item.icon} text={item.text} />
+        <SidebarItem
+          key={index}
+          icon={item.icon}
+          text={item.text}
+          linkTo={item.linkTo}
+        />
       ))}
-      <div className="mt-auto">
+      <div className="md:mt-auto md:mb-5 w-full">
         <button
           onClick={handleLogout}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-full w-full text-center"
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-5 px-5 rounded-full w-full text-center"
         >
           Logout
         </button>
