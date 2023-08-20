@@ -1,3 +1,4 @@
+import TweetCardLoader from "../loader/TweetCardLoader";
 import ProfileHeader from "./ProfileHeader";
 
 export default function Profile() {
@@ -11,6 +12,10 @@ export default function Profile() {
   return (
     <div>
       <ProfileHeader profile={profile} />
+      <div className="my-5">
+        <TweetCardLoader />
+        <TweetCardLoader />
+      </div>
     </div>
   );
 }

@@ -1,4 +1,10 @@
-import { FaHome, FaSearch, FaEnvelope, FaUser } from "react-icons/fa";
+import {
+  FaHome,
+  FaSearch,
+  FaEnvelope,
+  FaUser,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import useToken from "../../hooks/useToken";
 import Logo from "../../assets/Logo.svg";
@@ -33,9 +39,10 @@ const Sidebar = () => {
       <div className="md:mt-auto md:mb-5 w-full">
         <button
           onClick={handleLogout}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-5 px-5 rounded-full w-full text-center"
+          className="w-full bg-blue-500 flex felx-row items-center justify-center space-x-2 hover:bg-blue-600 text-white py-5 px-5 rounded-full w-full text-center"
         >
-          Logout
+          <FaSignOutAlt />
+          <div className="text-xl">Logout</div>
         </button>
       </div>
     </div>

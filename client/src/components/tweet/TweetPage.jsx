@@ -2,10 +2,21 @@ import { useEffect, useState } from "react";
 import PostTweet from "./PostTweet";
 import TweetCard from "./TweetCard";
 import TweetsController from "../../api/tweets";
+import useApi from "../../hooks/useApi";
+import TweetCardLoader from "../loader/TweetCardLoader";
 
 const TweetPage = () => {
   const [tweets, setTweets] = useState([]);
   // const [myTweets, setMyTweets] = useState([]);
+
+  const {
+    res: allTweetsResp,
+    data: allTweetsData,
+    error,
+    loading,
+    networkError,
+    request: getTweets,
+  } = useApi(TweetsController.getTweets);
 
   const handleEdit = (tweetId, newText) => {
     setTweets((prevTweets) =>
@@ -28,9 +39,8 @@ const TweetPage = () => {
 
   const getAllTweets = async () => {
     try {
-      const res = await TweetsController.getTweets();
-      console.log(res.data.tweets, "data");
-      setTweets(res.data.tweets);
+      await getTweets();
+      // console.log(res.data.tweets, "data");
     } catch (err) {
       console.log(err);
     }
@@ -50,6 +60,13 @@ const TweetPage = () => {
     getAllTweets();
     // getMyTweets();
   }, []);
+
+  useEffect(() => {
+    if (!networkError && !error && allTweetsResp && allTweetsData && !loading) {
+      console.log(allTweetsResp, allTweetsData, "allTweetsData");
+      setTweets(allTweetsData.tweets);
+    }
+  }, [error, loading, networkError, allTweetsData, allTweetsResp]);
   return (
     <div className="flex h-screen overflow-auto">
       <div className="flex-grow p-4">
@@ -62,7 +79,7 @@ const TweetPage = () => {
             My Tweets
           </div>
         </div>
-        {tweets &&
+        {tweets && !loading ? (
           tweets.map((tweet, idx) => (
             <TweetCard
               key={idx}
@@ -71,7 +88,14 @@ const TweetPage = () => {
               onEdit={handleEdit}
               onDelete={handleDelete}
             />
-          ))}
+          ))
+        ) : (
+          <>
+            <TweetCardLoader />
+            <TweetCardLoader />
+            <TweetCardLoader />
+          </>
+        )}
       </div>
     </div>
   );
