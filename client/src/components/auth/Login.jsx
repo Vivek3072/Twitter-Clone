@@ -1,25 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useToken from "../../hooks/useToken";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import useApi from "../../hooks/useApi";
+import AuthController from "../../api/auth";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken } = useToken();
-  const handleSubmit = (e) => {
+  const [error, setError] = useState("");
+
+  const { token, setToken } = useToken();
+
+  const {
+    res: loginResp,
+    data: loginData,
+    error: loginError,
+    loading,
+    networkError,
+    request: login,
+  } = useApi(AuthController.login);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    let token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-    setToken(token);
-    window.location.replace("/");
+    try {
+      await login({
+        username,
+        password,
+      });
+    } catch (err) {
+      console.log(err);
+      setError(err.response.data.message);
+    }
   };
 
+  useEffect(() => {
+    if (!networkError && !loginError && loginResp && loginData && !loading) {
+      setToken(loginData.accessToken);
+      window.location.replace("/");
+    }
+  }, [setToken, loginError, loading, networkError, loginResp, loginData]);
+
+  if (token) return <Navigate to="/" replace={true} />;
   return (
     <>
       <div className="w-full flex flex-col h-screen bg-gray-100">
-        <div className="m-auto w-96 p-6 bg-white rounded shadow-lg">
+        <div className="m-auto w-[90%] md:w-96 p-6 bg-white rounded shadow-lg">
           <h1 className="text-2xl font-semibold mb-4">Login</h1>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleLogin}>
             <div className="mb-4">
               <label
                 htmlFor="username"
@@ -50,6 +77,11 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+            {error && (
+              <div className="text-m text-red-500 text-center mb-3">
+                {error}
+              </div>
+            )}
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring"

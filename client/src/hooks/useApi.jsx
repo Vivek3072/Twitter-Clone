@@ -12,7 +12,7 @@ function useApi(apiFunc) {
     setLoading(true);
     const response = await apiFunc(...args);
 
-    if (response.status !== 200) {
+    if (!response.ok) {
       console.log(response, "res !== 200");
       if (response.problem === "NETWORK_ERROR") {
         setLoading(false);
