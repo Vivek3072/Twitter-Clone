@@ -44,8 +44,8 @@ const FollowMore = () => {
         <div className="text-xl font-medium mb-2">Accounts you follow</div>
         <ul>
           {followedAccounts && !loading ? (
-            followedAccounts?.map((account) => (
-              <li key={account.id} className="flex items-center space-x-2 mb-2">
+            followedAccounts?.map((account, idx) => (
+              <li key={idx} className="flex items-center space-x-2 mb-2">
                 <img
                   src={`https://avatars.dicebear.com/api/identicon/${account.username}.svg`}
                   alt={account.username}
