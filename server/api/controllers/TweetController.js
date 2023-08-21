@@ -1,3 +1,4 @@
+const ErrorRespond = require("../../helpers/ErrorRespond");
 const Tweet = require("../../models/TweetModel");
 
 class TweetController {
@@ -25,31 +26,63 @@ class TweetController {
     try {
       const { username, tweet_message } = req.body;
       if (!username || !tweet_message)
-        res.send(500).json({ message: "All fields mandatory!" });
+        res.status(500).send({ message: "All fields mandatory!" });
       // Create a new tweet
       const newTweet = new Tweet({
         username,
         tweet_message,
+        likes: 0,
       });
 
       await newTweet.save();
-      res.status(500).json({ message: "Tweeted Succesfully!" });
+      res.status(200).json({ message: "Tweeted Succesfully!" });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
   }
 
+  static async likeTweet(req, res) {
+    try {
+      const { tweet_id } = req.body;
+
+      if (!tweet_id) {
+        return ErrorRespond(res, 400, "Please provide tweet ID!");
+      }
+
+      const tweet = await Tweet.findById(tweet_id);
+      if (!tweet) {
+        return ErrorRespond(res, 404, "Tweet not found or deleted!");
+      }
+
+      const currentUserUsername = req.user.username;
+
+      if (tweet.likes.includes(currentUserUsername)) {
+        return ErrorRespond(res, 400, "You've already liked this tweet!");
+      }
+
+      tweet.likes.push(currentUserUsername);
+      tweet.save();
+
+      return res.status(200).json({ message: "Tweet liked successfully!" });
+    } catch (err) {
+      console.error(err);
+      return ErrorRespond(res, 500, "Internal server error");
+    }
+  }
+
   static async updateTweet(req, res) {
     try {
-      const { username, tweet_message } = req.body;
-      if (!username || !tweet_message)
-        return res
-          .status(400)
-          .json({ message: "Please provide both username and tweet_message." });
+      const { tweet_id, tweet_message } = req.body;
+      if (!tweet_id || !tweet_message)
+        return ErrorRespond(
+          res,
+          400,
+          "Please provide both tweet_id and tweet_message."
+        );
 
-      const updatedTweet = await Tweet.findOneAndUpdate(
-        { username: username },
+      const updatedTweet = await Tweet.findByIdAndUpdate(
+        tweet_id,
         { $set: { tweet_message: tweet_message } },
         { new: true }
       );
@@ -70,24 +103,23 @@ class TweetController {
 
   static async deleteTweet(req, res) {
     try {
-      const { id } = req.params;
-
-      if (!id)
-        return res
-          .status(400)
-          .json({ message: "Please provide both username and tweet_message." });
-
-      const deletedTweet = await Tweet.findOneAndDelete({
-        _id: id,
-      });
+      console.log(req.params.id, "req.params");
+      const tweet_id = req.params.id;
+      if (!tweet_id) return ErrorRespond(res, 400, "Please provide tweet_id");
+      
+      const tweet = await Tweet.findById(tweet_id);
+      if (!tweet) {
+        return ErrorRespond(res, 404, "Tweet Not Found!");
+      }
+      
+      const deletedTweet = await Tweet.findByIdAndDelete(tweet_id);
 
       if (!deletedTweet)
         return res.status(404).json({
-          message:
-            "Tweet not found for the provided username and tweet_message.",
+          message: "Tweet not found for the provided ID.",
         });
 
-      res.json({ message: "Tweet deleted successfully." });
+      res.status(200).send({ message: "Tweet deleted successfully." });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });

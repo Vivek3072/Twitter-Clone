@@ -4,7 +4,6 @@ const tweetSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    // unique: true,
     // ref: "User", // Reference to the User model
   },
   tweet_message: {
@@ -14,6 +13,10 @@ const tweetSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  likes: {
+    type: [String],
+    default: [],
   },
 });
 

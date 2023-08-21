@@ -5,6 +5,15 @@ const User = require("../../models/UserModel");
 const ErrorRespond = require("../../helpers/ErrorRespond");
 
 class UserController {
+  static getAllUsers = asyncHandler(async (req, res) => {
+    try {
+      const users = await User.find();
+      if (!users) return ErrorRespond(res, 400, "Users not found!");
+      return res.status(200).send(users);
+    } catch (err) {
+      //
+    }
+  });
   static registerUser = asyncHandler(async (req, res) => {
     const { username, email, password, confirm_password } = req.body;
 
@@ -72,8 +81,8 @@ class UserController {
             id: user.id,
           },
         },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "15m" }
+        process.env.ACCESS_TOKEN_SECRET
+        // { expiresIn: "1h" }
       );
       res.status(200).json({ username: user.username, accessToken });
     } else {
