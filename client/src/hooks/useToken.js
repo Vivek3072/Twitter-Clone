@@ -19,29 +19,29 @@ export default function useToken() {
     setToken();
   };
 
-  //   const getName = () => {
-  //     const username = localStorage.getItem("username");
-  //     if (username === "undefined") return null;
-  //     return username;
-  //   };
-  //   const [name, setName] = useState(getName());
+  const getLocalName = () => {
+    const username = localStorage.getItem("username");
+    if (username === "undefined") return null;
+    return username;
+  };
+  const [localUsername, setLocalName] = useState(getLocalName());
 
-  //   const saveName = (username) => {
-  //     localStorage.setItem("username", username);
-  //     setName(username);
-  //   };
+  const saveLocalName = (username) => {
+    localStorage.setItem("username", username);
+    setLocalName(username);
+  };
 
-  //   const removeName = () => {
-  //     localStorage.removeItem("username");
-  //     setName();
-  //   };
+  const removeLocalName = () => {
+    localStorage.removeItem("username");
+    setLocalName();
+  };
 
   return {
     token,
     setToken: saveToken,
     removeToken,
-    // username,
-    // setName: saveName,
-    // removeName,
+    localUsername,
+    setLocalName: saveLocalName,
+    removeLocalName,
   };
 }

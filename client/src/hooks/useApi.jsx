@@ -13,10 +13,16 @@ function useApi(apiFunc) {
     const response = await apiFunc(...args);
 
     if (!response.ok) {
-      console.log(response, "res !== 200");
+      console.log(response, "res !ok");
       if (response.problem === "NETWORK_ERROR") {
         setLoading(false);
         return setNetworkError(true);
+      }
+      if (response.problem === "CLIENT_ERROR") {
+        setLoading(false);
+        setRes(response);
+        setData(response.data);
+        return setError(true);
       } else if (response.data.code === "token_not_valid") {
         setLoading(false);
         setData(response.data);
