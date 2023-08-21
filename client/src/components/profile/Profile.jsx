@@ -5,6 +5,7 @@ import useToken from "../../hooks/useToken";
 import AuthController from "../../api/auth";
 import useApi from "../../hooks/useApi";
 import { Navigate } from "react-router-dom";
+import FollowMore from "../rightbar/FollowMore";
 
 export default function Profile() {
   const profile = {
@@ -53,6 +54,7 @@ export default function Profile() {
         avatar={profile.avatar}
         coverImage={profile.coverImage}
       />
+      <FollowMore />
       <div className="my-5">
         <TweetCardLoader />
         <TweetCardLoader />

@@ -4,11 +4,6 @@ import AuthController from "../../api/auth";
 
 const FollowMore = () => {
   const [followedAccounts, setFollowedAccounts] = useState([]);
-  // const suggestedAccounts = [
-  //   { id: 1, username: "user1", name: "User One" },
-  //   { id: 2, username: "user2", name: "User Two" },
-  //   { id: 3, username: "user3", name: "User Three" },
-  // ];
 
   const {
     res: resp,
@@ -33,14 +28,14 @@ const FollowMore = () => {
 
   useEffect(() => {
     if (!networkError && !fetchError && resp && data && !loading) {
-      console.log(resp, data, "current page");
+      // console.log(resp, data, "current page");
       setFollowedAccounts(data?.user[0].following);
     }
   }, [fetchError, loading, networkError, resp, data]);
 
   return (
     <>
-      <div className="bg-white border rounded p-4 mb-4">
+      <div className="bg-white border rounded p-4 mb-4 my-2">
         <div className="text-xl font-medium mb-2">Accounts you follow</div>
         <ul>
           {followedAccounts && !loading ? (

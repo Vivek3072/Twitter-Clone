@@ -1,6 +1,10 @@
 import client from "./client";
 
 export default class AuthController {
+  static async getAllUsers() {
+    const user = await client.get("/auth/all");
+    return user;
+  }
   static async login(data) {
     const user = await client.post("/auth/login", data);
     return user;

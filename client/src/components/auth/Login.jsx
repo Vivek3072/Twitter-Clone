@@ -39,10 +39,20 @@ const Login = () => {
       setToken(loginData.accessToken);
       setLocalName(loginData.username);
       window.location.replace("/");
+    } else if (networkError) {
+      setError("Network Error!");
     } else {
       setError(loginData?.message);
     }
-  }, [setToken, loginError, loading, networkError, loginResp, loginData]);
+  }, [
+    setToken,
+    setLocalName,
+    loginError,
+    loading,
+    networkError,
+    loginResp,
+    loginData,
+  ]);
 
   if (token) return <Navigate to="/" replace={true} />;
   return (
