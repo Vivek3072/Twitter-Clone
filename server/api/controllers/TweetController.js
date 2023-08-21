@@ -4,7 +4,7 @@ const Tweet = require("../../models/TweetModel");
 class TweetController {
   static async getTweets(req, res) {
     try {
-      const tweets = await Tweet.find();
+      const tweets = await Tweet.find().sort({ createdAt: -1 });
       res.status(200).json({ tweets });
     } catch (err) {
       console.error(err);
@@ -34,7 +34,7 @@ class TweetController {
       });
 
       await newTweet.save();
-      res.status(200).json({ message: "Tweeted Succesfully!" });
+      res.status(200).json(newTweet);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -102,7 +102,6 @@ class TweetController {
 
   static async deleteTweet(req, res) {
     try {
-      console.log(req.params.id, "req.params");
       const tweet_id = req.params.id;
       if (!tweet_id) return ErrorRespond(res, 400, "Please provide tweet_id");
 
@@ -118,7 +117,7 @@ class TweetController {
           message: "Tweet not found for the provided ID.",
         });
 
-      res.status(200).send({ message: "Tweet deleted successfully." });
+      res.status(200).send(deletedTweet);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
