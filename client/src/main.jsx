@@ -9,6 +9,7 @@ import Login from "./components/auth/Login.jsx";
 import Protected from "./utils/Protected.jsx";
 import Message from "./components/message/Message";
 import Profile from "./components/profile/Profile";
+import People from "./components/people/People";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,17 @@ const router = createBrowserRouter([
       <AppLayout>
         <Protected>
           <Profile />
+        </Protected>
+      </AppLayout>
+    ),
+    errorElement: <div>Error Page</div>,
+  },
+  {
+    path: "/people",
+    element: (
+      <AppLayout>
+        <Protected>
+          <People />
         </Protected>
       </AppLayout>
     ),

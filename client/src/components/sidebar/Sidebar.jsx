@@ -1,21 +1,23 @@
-import {
-  FaHome,
-  FaSearch,
-  FaEnvelope,
-  FaUser,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import { FaHome, FaUserCircle, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import { BsFillChatTextFill } from "react-icons/bs";
 import SidebarItem from "./SidebarItem";
 import useToken from "../../hooks/useToken";
 import Logo from "../../assets/Logo.svg";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const { removeToken } = useToken();
+  const location = useLocation();
+
   const sidebarItems = [
     { icon: <FaHome />, text: "Home", linkTo: "/" },
-    { icon: <FaSearch />, text: "Explore", linkTo: "/" },
-    { icon: <FaEnvelope />, text: "Messages", linkTo: "/message" },
-    { icon: <FaUser />, text: "Profile", linkTo: "/profile" },
+    { icon: <FaUsers />, text: "People", linkTo: "/people" },
+    {
+      icon: <BsFillChatTextFill />,
+      text: "Messages",
+      linkTo: "/message",
+    },
+    { icon: <FaUserCircle />, text: "Profile", linkTo: "/profile" },
   ];
   function handleLogout(e) {
     removeToken();
@@ -34,6 +36,7 @@ const Sidebar = () => {
           icon={item.icon}
           text={item.text}
           linkTo={item.linkTo}
+          isActive={location.pathname === item.linkTo}
         />
       ))}
       <div className="md:mt-auto md:mb-5 w-full">

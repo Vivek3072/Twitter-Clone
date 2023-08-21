@@ -7,6 +7,9 @@ import TweetCardLoader from "../loader/TweetCardLoader";
 
 const TweetPage = () => {
   const [tweets, setTweets] = useState([]);
+  const [isEdited, setIsEdited] = useState([]);
+  const [isDeleted, setIsDeleted] = useState([]);
+  const [isPosted, setIsPosted] = useState([]);
   // const [myTweets, setMyTweets] = useState([]);
 
   const {
@@ -18,25 +21,6 @@ const TweetPage = () => {
     request: getTweets,
   } = useApi(TweetsController.getTweets);
 
-  const handleEdit = (tweetId, newText) => {
-    setTweets((prevTweets) =>
-      prevTweets.map((tweet) =>
-        tweet.id === tweetId ? { ...tweet, text: newText } : tweet
-      )
-    );
-  };
-
-  const handleDelete = (tweetId) => {
-    setTweets((prevTweets) =>
-      prevTweets.filter((tweet) => tweet.id !== tweetId)
-    );
-  };
-
-  const handlePost = (newText) => {
-    const newTweet = { id: Date.now(), text: newText };
-    setTweets((prevTweets) => [...prevTweets, newTweet]);
-  };
-
   const getAllTweets = async () => {
     try {
       await getTweets();
@@ -45,6 +29,18 @@ const TweetPage = () => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    getAllTweets();
+    // getMyTweets();
+  }, [isPosted, isEdited, isDeleted]);
+
+  useEffect(() => {
+    if (!networkError && !error && allTweetsResp && allTweetsData && !loading) {
+      // console.log(allTweetsResp, allTweetsData, "allTweetsData");
+      setTweets(allTweetsData.tweets);
+    }
+  }, [error, loading, networkError, allTweetsData, allTweetsResp]);
 
   // const getMyTweets = async (user) => {
   //   try {
@@ -56,26 +52,18 @@ const TweetPage = () => {
   //   }
   // };
 
-  useEffect(() => {
-    getAllTweets();
-    // getMyTweets();
-  }, []);
-
-  useEffect(() => {
-    if (!networkError && !error && allTweetsResp && allTweetsData && !loading) {
-      console.log(allTweetsResp, allTweetsData, "allTweetsData");
-      setTweets(allTweetsData.tweets);
-    }
-  }, [error, loading, networkError, allTweetsData, allTweetsResp]);
   return (
     <div className="flex h-screen overflow-auto">
       <div className="flex-grow p-4">
-        <PostTweet onPost={handlePost} />
-        <div className="flex flex-row justify-between w-full p-3">
-          <div className="text-center font-medium text-blue-500 m-2 p-2 w-full border-b-2 border-blue-500">
-            All Tweets
+        <PostTweet onPost={setIsPosted} />
+        <div className="flex flex-row justify-between border-b w-full my-3">
+          <div
+            className="text-center text-lg
+           font-medium text-blue-500 p-2 w-full border-b-2 border-blue-500 hover:cursor-pointer"
+          >
+            Timeline
           </div>
-          <div className="text-center font-medium text-blue-500 m-2 p-2 w-full border-b-2 border-blue-500">
+          <div className="text-center text-lg font-medium hover:text-blue-500 p-2 w-full border-b-2  hover:border-blue-500 hover:cursor-pointer">
             My Tweets
           </div>
         </div>
@@ -83,10 +71,12 @@ const TweetPage = () => {
           tweets.map((tweet, idx) => (
             <TweetCard
               key={idx}
+              tweet_id={tweet._id}
               user={tweet.username}
-              tweet={tweet.tweet_message}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
+              tweet_message={tweet.tweet_message}
+              time={tweet.createdAt}
+              onEdit={setIsEdited}
+              onDelete={setIsDeleted}
             />
           ))
         ) : (
