@@ -25,20 +25,22 @@ const Sidebar = () => {
     window.location.reload();
   }
   return (
-    <div className="h-fit md:h-screen w-full flex items-center md:items-start md:flex-col flex-row overflow-x-auto w-full shadow-sm rounded px-2 md:space-x-0 space-x-3">
-      <div className="text-xl my-5 space-x-1 flex flex-row items-center justify-center">
+    <div className="h-fit md:h-screen w-full flex items-center md:items-start md:flex-col flex-row overflow-x-auto w-full shadow-sm rounded px-2 md:space-x-0">
+      <div className="text-xl my-5 space-x-1 flex flex-row items-center justify-center w-full">
         <img src={Logo} className="w-8 h-8" alt="Logo" />
-        <div>Tooter</div>
+        <div>Tweeter</div>
       </div>
-      {sidebarItems.map((item, index) => (
-        <SidebarItem
-          key={index}
-          icon={item.icon}
-          text={item.text}
-          linkTo={item.linkTo}
-          isActive={location.pathname === item.linkTo}
-        />
-      ))}
+      <div className="md:relative fixed md:top-auto bottom-0 w-[92%] bg-white md:shadow-none shadow-xl rounded-full px-1 my-1 flex md:flex-col flex-row">
+        {sidebarItems.map((item, index) => (
+          <SidebarItem
+            key={index}
+            icon={item.icon}
+            text={item.text}
+            linkTo={item.linkTo}
+            isActive={location.pathname === item.linkTo}
+          />
+        ))}
+      </div>
       <div className="md:mt-auto md:mb-5 w-full">
         <button
           onClick={handleLogout}
