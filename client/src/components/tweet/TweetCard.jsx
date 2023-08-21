@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaRegHeart } from "react-icons/fa";
 import { MdShare } from "react-icons/md";
-import AuthController from "../../api/auth";
+// import AuthController from "../../api/auth";
 import useApi from "../../hooks/useApi";
 import useToken from "../../hooks/useToken";
 import TweetsController from "../../api/tweets";
 import Toast from "../utils/Toast";
+import UserContext from "../../hooks/UserContext";
 
-const TweetCard = ({
-  tweet_id,
-  tweet_message,
-  user,
-  time,
-  onEdit,
-  onDelete,
-}) => {
-  const formattedDate = time && new Date(time);
+const TweetCard = ({ tweet, tweets, setTweets }) => {
+  // console.log(tweet?._id, "tweet");
+  const { _id: tweet_id, username, createdAt, tweet_message, likes } = tweet;
+  const { userData } = useContext(UserContext);
+
+  let postLikes = likes.length;
+
+  const formattedDate = createdAt && new Date(createdAt);
   const options = { year: "numeric", month: "long", day: "numeric" };
   const formattedDateString = formattedDate.toLocaleDateString(
     undefined,
@@ -40,7 +40,13 @@ const TweetCard = ({
 
   const updateThetweet = async (id, message) => {
     try {
-      await editTweet({
+      const updatedTweets = tweets?.map((item) => {
+        if (item._id === id) return { ...item, tweet_message: message };
+        return item;
+      });
+      console.log(updatedTweets, "updatedTweets");
+      setTweets(updatedTweets);
+      editTweet({
         tweet_id: id,
         tweet_message: message,
       });
@@ -59,11 +65,9 @@ const TweetCard = ({
     ) {
       setIsEditing(false);
       setToast(true);
-      onEdit(true);
+      console.log(editTweetsData, "editTweetsData");
     }
   }, [
-    onEdit,
-    editedText,
     editError,
     editLoading,
     editNetworkError,
@@ -93,7 +97,11 @@ const TweetCard = ({
 
   const handleDelete = async (tweet_id) => {
     try {
-      await deleteTweet(tweet_id);
+      const updatedTweets = tweets?.map((item) => {
+        if (item._id !== tweet_id) return item;
+      });
+      setTweets(updatedTweets);
+      deleteTweet(tweet_id);
     } catch (err) {
       console.log(err);
     }
@@ -107,10 +115,8 @@ const TweetCard = ({
       !deleteLoading
     ) {
       setToast(true);
-      onDelete(true);
     }
   }, [
-    onDelete,
     deleteError,
     deleteLoading,
     deleteNetworkError,
@@ -120,36 +126,36 @@ const TweetCard = ({
   // THE DELETE TWEET SECTION's LOGIC ENDS HERE
 
   // THIS SECTIONS HANDLES THE LOGIC WHEN A USER FOLLOWS ANOTHER USER
-  const {
-    res: followResp,
-    data: followData,
-    error: followError,
-    loading,
-    networkError,
-    request: followUserReq,
-  } = useApi(AuthController.followUserReq);
+  // const {
+  //   res: followResp,
+  //   data: followData,
+  //   error: followError,
+  //   loading,
+  //   networkError,
+  //   request: followUserReq,
+  // } = useApi(AuthController.followUserReq);
 
-  const handleFollowUser = async (e) => {
-    console.log(localUsername, user, "Handlefollow");
-    e.preventDefault();
-    try {
-      await followUserReq({
-        username: localUsername,
-        followUser: user,
-      });
-    } catch (err) {
-      console.log(err, "Err register");
-    }
-  };
+  // const handleFollowUser = async (e) => {
+  //   console.log(localUsername, user, "Handlefollow");
+  //   e.preventDefault();
+  //   try {
+  //     await followUserReq({
+  //       username: localUsername,
+  //       followUser: user,
+  //     });
+  //   } catch (err) {
+  //     console.log(err, "Err register");
+  //   }
+  // };
 
-  useEffect(() => {
-    if (!networkError && !followError && followData && followResp && !loading) {
-      console.log(followData, followResp, "register page");
-      window.location.reload;
-    } else {
-      console.log(followData?.message, "message");
-    }
-  }, [followError, loading, networkError, followResp, followData]);
+  // useEffect(() => {
+  //   if (!networkError && !followError && followData && followResp && !loading) {
+  //     console.log(followData, followResp, "register page");
+  //     window.location.reload;
+  //   } else {
+  //     console.log(followData?.message, "message");
+  //   }
+  // }, [followError, loading, networkError, followResp, followData]);
 
   return (
     <>
@@ -157,17 +163,18 @@ const TweetCard = ({
         <div className="flex flex-row items-center justify-between mb-2">
           <div className="flex flex-row">
             <img
-              src={`https://avatars.dicebear.com/api/identicon/${user}.svg`}
-              alt={`User ${user}`}
+              src={`https://avatars.dicebear.com/api/identicon/${username}.svg`}
+              alt={`User ${username}`}
               className="w-10 h-10 rounded-full mr-3"
             />
-            <div className="text-lg font-medium">{`@${user}`}</div>
-            {localUsername !== user && (
-              <div
-                className="text-blue-500 font-medium px-2 py-1 rounded md:ml-2"
-                onClick={handleFollowUser}
-              >
-                Follow
+            <div className="text-lg font-medium">{`@${username}`}</div>
+            {userData?.following?.find((data) => data.username === username) ? (
+              <div className="text-blue-500 px-2 py-1 rounded md:ml-2">
+                Following
+              </div>
+            ) : (
+              <div className="text-orange-500 px-2 py-1 rounded md:ml-2">
+                Not Following
               </div>
             )}
           </div>
@@ -190,7 +197,7 @@ const TweetCard = ({
           <div className="flex space-x-4 text-gray-600">
             <div className="flex items-center space-x-1 cursor-pointer font-medium hover:text-blue-500">
               <FaRegHeart />
-              <span>12</span>
+              <span>{postLikes}</span>
             </div>
             <div className="flex items-center space-x-1 cursor-pointer font-medium hover:text-green-500">
               <MdShare />
@@ -213,7 +220,7 @@ const TweetCard = ({
               </button>
             </div>
           ) : (
-            localUsername === user && (
+            localUsername === username && (
               <>
                 <div className="flex space-x-4">
                   <div
@@ -236,7 +243,9 @@ const TweetCard = ({
           )}
         </div>
       </div>
-      {toast && <Toast message={editTweetsData?.message} type="success" />}
+      {toast && (
+        <Toast message={editTweetsData?.tweet_message} type="success" />
+      )}
     </>
   );
 };

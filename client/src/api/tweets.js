@@ -17,8 +17,12 @@ export default class TweetsController {
     const updatedTweet = await client.put("/tweets", data);
     return updatedTweet;
   }
+  static async likeTweet(data) {
+    const liked = await client.post("/tweets/like", data);
+    return liked;
+  }
   static async deleteTweet(tweet_id) {
-    const deleted = await client.delete(`/tweets/${tweet_id}`, tweet_id);
+    const deleted = await client.delete(`/tweets/${tweet_id}`);
     return deleted;
   }
 }

@@ -7,8 +7,6 @@ import TweetCardLoader from "../loader/TweetCardLoader";
 
 const TweetPage = () => {
   const [tweets, setTweets] = useState([]);
-  const [isEdited, setIsEdited] = useState([]);
-  const [isDeleted, setIsDeleted] = useState([]);
   const [isPosted, setIsPosted] = useState([]);
   // const [myTweets, setMyTweets] = useState([]);
 
@@ -33,7 +31,7 @@ const TweetPage = () => {
   useEffect(() => {
     getAllTweets();
     // getMyTweets();
-  }, [isPosted, isEdited, isDeleted]);
+  }, [isPosted]);
 
   useEffect(() => {
     if (!networkError && !error && allTweetsResp && allTweetsData && !loading) {
@@ -71,12 +69,9 @@ const TweetPage = () => {
           tweets.map((tweet, idx) => (
             <TweetCard
               key={idx}
-              tweet_id={tweet._id}
-              user={tweet.username}
-              tweet_message={tweet.tweet_message}
-              time={tweet.createdAt}
-              onEdit={setIsEdited}
-              onDelete={setIsDeleted}
+              tweet={tweet}
+              tweets={tweets}
+              setTweets={setTweets}
             />
           ))
         ) : (

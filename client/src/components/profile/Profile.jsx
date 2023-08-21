@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import TweetCardLoader from "../loader/TweetCardLoader";
 import ProfileHeader from "./ProfileHeader";
 import useToken from "../../hooks/useToken";
 import AuthController from "../../api/auth";
@@ -55,10 +54,6 @@ export default function Profile() {
         coverImage={profile.coverImage}
       />
       <FollowMore />
-      <div className="my-5">
-        <TweetCardLoader />
-        <TweetCardLoader />
-      </div>
     </div>
   );
 }

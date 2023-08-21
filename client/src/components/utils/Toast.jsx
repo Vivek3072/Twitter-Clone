@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 const Toast = ({ message, type }) => {
-  console.log(message, type);
+  // console.log(message, type);
   const [showToast, setShowToast] = useState(true);
 
   useEffect(() => {
