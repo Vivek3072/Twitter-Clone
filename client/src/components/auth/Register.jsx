@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import AuthController from "../../api/auth";
+import useToken from "../../hooks/useToken";
 
 const Registration = () => {
   const [username, setUsername] = useState("");
@@ -10,6 +11,8 @@ const Registration = () => {
   const [email, setEmail] = useState("");
 
   const [error, setError] = useState("");
+
+  const { token, setToken } = useToken();
 
   const {
     res: registerResp,
@@ -44,10 +47,22 @@ const Registration = () => {
       !loading
     ) {
       console.log(registerData, registerResp, "register page");
-      // setToken(registerData.accessToken);
-      window.location.replace("/login");
+      setToken(registerData?.accessToken);
+      // setLocalUsername(registerData?.username);
+    } else {
+      setError(registerData?.message);
     }
-  }, [registerError, loading, networkError, registerResp, registerData]);
+  }, [
+    setToken,
+    // setUsername,
+    registerError,
+    loading,
+    networkError,
+    registerResp,
+    registerData,
+  ]);
+
+  if (token) return <Navigate to="/" replace={true} />;
 
   return (
     <div className="flex h-screen bg-gray-100">

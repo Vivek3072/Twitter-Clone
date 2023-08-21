@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaHeart, FaShare } from "react-icons/fa";
+import AuthController from "../../api/auth";
+import useApi from "../../hooks/useApi";
+import useToken from "../../hooks/useToken";
 
+// eslint-disable-next-line react/prop-types
 const TweetCard = ({ tweet, user, onEdit, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(tweet);
+  const { localUsername } = useToken();
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -19,6 +24,36 @@ const TweetCard = ({ tweet, user, onEdit, onDelete }) => {
     setIsEditing(false);
   };
 
+  const {
+    res: followResp,
+    data: followData,
+    error: followError,
+    loading,
+    networkError,
+    request: followUserReq,
+  } = useApi(AuthController.followUserReq);
+
+  const handleFollowUser = async (e) => {
+    console.log(localUsername, user, "Handlefollow");
+    e.preventDefault();
+    try {
+      await followUserReq({
+        username: localUsername,
+        followUser: user,
+      });
+    } catch (err) {
+      console.log(err, "Err register");
+    }
+  };
+
+  useEffect(() => {
+    if (!networkError && !followError && followData && followResp && !loading) {
+      console.log(followData, followResp, "register page");
+    } else {
+      console.log(followData?.message, "message");
+    }
+  }, [followError, loading, networkError, followResp, followData]);
+
   return (
     <div className="border rounded p-3 mb-3">
       <div className="flex flex-row items-center justify-between mb-2">
@@ -29,7 +64,10 @@ const TweetCard = ({ tweet, user, onEdit, onDelete }) => {
             className="w-10 h-10 rounded-full mr-3"
           />
           <div className="text-lg font-medium">{`@${user}`}</div>
-          <div className="text-blue-500 font-medium px-2 py-1 rounded ml-2">
+          <div
+            className="text-blue-500 font-medium px-2 py-1 rounded ml-2"
+            onClick={handleFollowUser}
+          >
             Follow
           </div>
         </div>

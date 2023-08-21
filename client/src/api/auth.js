@@ -9,7 +9,11 @@ export default class AuthController {
     const user = await client.post("/auth/register", data);
     return user;
   }
-  static async followUser(data) {
+  static async currentUser() {
+    const user = await client.get("/auth/current");
+    return user;
+  }
+  static async followUserReq(data) {
     const user = await client.post("/auth/follow", data);
     return user;
   }

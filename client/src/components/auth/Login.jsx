@@ -5,11 +5,12 @@ import useApi from "../../hooks/useApi";
 import AuthController from "../../api/auth";
 
 const Login = () => {
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { token, setToken } = useToken();
+  const { token, setToken , setLocalName} = useToken();
 
   const {
     res: loginResp,
@@ -36,6 +37,7 @@ const Login = () => {
   useEffect(() => {
     if (!networkError && !loginError && loginResp && loginData && !loading) {
       setToken(loginData.accessToken);
+      setLocalName(loginData.username);
       window.location.replace("/");
     }
   }, [setToken, loginError, loading, networkError, loginResp, loginData]);

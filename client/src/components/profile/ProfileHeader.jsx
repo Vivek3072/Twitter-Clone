@@ -1,6 +1,6 @@
-const ProfileHeader = ({ profile }) => {
+const userHeader = ({ user, coverImage }) => {
   const headerStyle = {
-    backgroundImage: `url(${profile.coverImage})`,
+    backgroundImage: `url(${coverImage})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
   };
@@ -11,13 +11,13 @@ const ProfileHeader = ({ profile }) => {
         <div className="h-40 mb-4"></div>
         <div className="flex items-center space-x-4">
           <img
-            src={profile.avatar}
+            src={`https://avatars.dicebear.com/api/identicon/${user.username}.svg`}
             alt="Avatar"
             className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
           />
           <div className="text-white">
-            <h1 className="text-3xl font-semibold">{`@${profile.username}`}</h1>
-            <p className="text-sm">Bio and other information</p>
+            <h1 className="text-3xl font-semibold">{`@${user.username}`}</h1>
+            <p className="text-sm">{user?.email}</p>
           </div>
         </div>
       </div>
@@ -25,4 +25,4 @@ const ProfileHeader = ({ profile }) => {
   );
 };
 
-export default ProfileHeader;
+export default userHeader;
