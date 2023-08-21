@@ -4,7 +4,7 @@ import useApi from "../../hooks/useApi";
 import useToken from "../../hooks/useToken";
 import { TbBrandTwitter } from "react-icons/tb";
 
-const PostTweet = ({ onPost }) => {
+const PostTweet = ({ setTweets }) => {
   const [tweetText, setTweetText] = useState("");
   const { localUsername } = useToken();
   const {
@@ -36,15 +36,13 @@ const PostTweet = ({ onPost }) => {
       !postLoading
     ) {
       setTweetText("");
-      onPost(true);
+      setTweets((prev) => [postTweetsData, ...prev]);
+      console.log(postTweetsData, "postTweetsData!");
     } else if (postNetworkError) {
       console.log("Network Error!");
     }
-    // else {
-    //   console.log(postTweetsData?.message, "message");
-    // }
   }, [
-    onPost,
+    setTweets,
     setTweetText,
     postError,
     postLoading,

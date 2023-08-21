@@ -97,9 +97,9 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
 
   const handleDelete = async (tweet_id) => {
     try {
-      const updatedTweets = tweets?.map((item) => {
-        if (item._id !== tweet_id) return item;
-      });
+      const updatedTweets = tweets?.filter((item) => item._id !== tweet_id);
+
+      console.log(updatedTweets, "updatedTweets inside handleDelete");
       setTweets(updatedTweets);
       deleteTweet(tweet_id);
     } catch (err) {
@@ -114,6 +114,8 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
       deleteTweetsResp &&
       !deleteLoading
     ) {
+      console.log(deleteTweetsData, "DELETEDDATA");
+      // setTweets(deleteTweetsData);
       setToast(true);
     }
   }, [
@@ -122,6 +124,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
     deleteNetworkError,
     deleteTweetsData,
     deleteTweetsResp,
+    setTweets,
   ]);
   // THE DELETE TWEET SECTION's LOGIC ENDS HERE
 
@@ -243,9 +246,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
           )}
         </div>
       </div>
-      {toast && (
-        <Toast message={editTweetsData?.tweet_message} type="success" />
-      )}
+      {toast && <Toast message="Operation Successfull!" type="success" />}
     </>
   );
 };

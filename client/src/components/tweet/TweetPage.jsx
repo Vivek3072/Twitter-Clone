@@ -7,7 +7,6 @@ import TweetCardLoader from "../loader/TweetCardLoader";
 
 const TweetPage = () => {
   const [tweets, setTweets] = useState([]);
-  const [isPosted, setIsPosted] = useState([]);
   // const [myTweets, setMyTweets] = useState([]);
 
   const {
@@ -31,7 +30,7 @@ const TweetPage = () => {
   useEffect(() => {
     getAllTweets();
     // getMyTweets();
-  }, [isPosted]);
+  }, []);
 
   useEffect(() => {
     if (!networkError && !error && allTweetsResp && allTweetsData && !loading) {
@@ -53,7 +52,7 @@ const TweetPage = () => {
   return (
     <div className="flex h-screen overflow-auto">
       <div className="flex-grow p-4">
-        <PostTweet onPost={setIsPosted} />
+        <PostTweet setTweets={setTweets} />
         <div className="flex flex-row justify-between border-b w-full my-3">
           <div
             className="text-center text-lg
@@ -66,7 +65,7 @@ const TweetPage = () => {
           </div>
         </div>
         {tweets && !loading ? (
-          tweets.map((tweet, idx) => (
+          tweets?.map((tweet, idx) => (
             <TweetCard
               key={idx}
               tweet={tweet}
