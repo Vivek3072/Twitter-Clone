@@ -36,7 +36,7 @@ const Footer = () => {
           ))}
         </div>
         <div className="text-sm text-center mt-4">
-          &copy; 2023 - Twitter Clone
+          &copy; 2023 - Tweeter
         </div>
         <div className="text-sm text-center mt-4">All rights reserved.</div>
       </div>

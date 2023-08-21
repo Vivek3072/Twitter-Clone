@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import AuthController from "../../api/auth";
+import UserLoader from "../loader/UserLoader";
 
 const FollowMore = () => {
   const [followedAccounts, setFollowedAccounts] = useState([]);
@@ -53,9 +54,10 @@ const FollowMore = () => {
               </li>
             ))
           ) : (
-            <div className="text-center text-gray-500 my-3">
-              Nothing to show here!
-            </div>
+            <>
+              <UserLoader />
+              <UserLoader />
+            </>
           )}
         </ul>
       </div>

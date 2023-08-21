@@ -7,7 +7,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 const AppLayout = ({ children }) => {
   return (
     <>
-      <div className="h-full grid md:grid-cols-5 grid-cols-1 md:grid-rows-1 grid-rows-auto px-1 md:px-10 lg:px-20 py-5 gap-[10px]">
+      <div className="h-full grid md:grid-cols-5 grid-cols-1 md:grid-rows-1 grid-rows-auto px-1 md:px-5 lg:px-20 py-5 gap-[10px]">
         <div className="md:col-span-1 col-span-1">
           <Sidebar />
         </div>

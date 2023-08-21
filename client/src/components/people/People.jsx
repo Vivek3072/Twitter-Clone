@@ -3,6 +3,7 @@ import useApi from "../../hooks/useApi";
 import AuthController from "../../api/auth";
 import useToken from "../../hooks/useToken";
 import UserContext from "../../hooks/UserContext";
+import UserLoader from "../loader/UserLoader";
 
 const UserList = () => {
   const { userData, setUserData } = useContext(UserContext);
@@ -128,43 +129,49 @@ const UserList = () => {
 
   return (
     <div className="bg-gray-50 rounded min-h-screen p-6 overflow-y-auto">
-      <h1 className="text-2xl font-semibold mb-4">
-        User List on Twitter Clone
-      </h1>
+      <h1 className="text-2xl font-semibold mb-4">User List on Tweeter</h1>
       <ul className="space-y-4">
-        {allUsers?.map((user) => (
-          <li
-            key={user._id}
-            className="bg-white p-4 rounded-lg shadow-md flex justify-between"
-          >
-            <div>
-              <p className="text-lg font-semibold">{user.username}</p>
-              <p className="text-gray-600">{user.email}</p>
-            </div>
-
-            {user.username !== localUsername && (
-              <div className="my-auto">
-                {userData?.following?.find(
-                  (data) => data.username === user.username
-                ) ? (
-                  <div
-                    className="h-fit my-auto bg-red-500 text-white px-5 py-1 rounded-full hover:cursor-pointer transition-all duration-300"
-                    onClick={() => handleRemoveUser(user.username)}
-                  >
-                    Unfollow
-                  </div>
-                ) : (
-                  <div
-                    className="h-fit my-auto bg-blue-500 text-white px-5 py-1 rounded-full hover:cursor-pointer transition-all duration-300"
-                    onClick={() => handleFollowUser(user.username)}
-                  >
-                    Follow
-                  </div>
-                )}
+        {allUsers && !loading ? (
+          allUsers?.map((user) => (
+            <li
+              key={user._id}
+              className="bg-white p-4 rounded-lg shadow-md flex justify-between"
+            >
+              <div>
+                <p className="text-lg font-semibold">{user.username}</p>
+                <p className="text-gray-600">{user.email}</p>
               </div>
-            )}
-          </li>
-        ))}
+
+              {user.username !== localUsername && (
+                <div className="my-auto">
+                  {userData?.following?.find(
+                    (data) => data.username === user.username
+                  ) ? (
+                    <div
+                      className="h-fit my-auto bg-red-500 text-white px-5 py-1 rounded-full hover:cursor-pointer transition-all duration-300"
+                      onClick={() => handleRemoveUser(user.username)}
+                    >
+                      Unfollow
+                    </div>
+                  ) : (
+                    <div
+                      className="h-fit my-auto bg-blue-500 text-white px-5 py-1 rounded-full hover:cursor-pointer transition-all duration-300"
+                      onClick={() => handleFollowUser(user.username)}
+                    >
+                      Follow
+                    </div>
+                  )}
+                </div>
+              )}
+            </li>
+          ))
+        ) : (
+          <>
+            <UserLoader />
+            <UserLoader />
+            <UserLoader />
+          </>
+        )}
       </ul>
     </div>
   );
