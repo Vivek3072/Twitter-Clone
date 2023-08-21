@@ -11,11 +11,15 @@ class UserController {
     if (!username) return ErrorRespond(res, 400, "Username is required");
     else if (!email) return ErrorRespond(res, 400, "Email is required");
     else if (!password) return ErrorRespond(res, 400, "Password is required");
+    else if (password.length < 6)
+      return ErrorRespond(res, 400, "Password is too short!");
+    else if (!confirm_password)
+      return ErrorRespond(res, 400, "Please confirm your password!");
     else if (password !== confirm_password) {
       return ErrorRespond(res, 404, "Passwords did not match!");
     }
 
-    const userAvailable = await User.findOne({ email });
+    const userAvailable = await User.findOne({ email, username });
     if (userAvailable) {
       return ErrorRespond(res, 400, "User already registered!");
     }
@@ -71,14 +75,16 @@ class UserController {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "15m" }
       );
-      res.status(200).json({ accessToken });
+      res.status(200).json({ username: user.username, accessToken });
     } else {
       return ErrorRespond(res, 401, "Incorrect password!");
     }
   });
 
   static currentUser = asyncHandler(async (req, res) => {
-    res.json(req.user);
+    const user = await User.find({ username: req.user.username });
+    if (!user) return ErrorRespond(res, 404, "User not found!");
+    else return res.status(200).json({ user });
   });
 
   static followUsers = asyncHandler(async (req, res) => {
