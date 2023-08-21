@@ -132,7 +132,39 @@ class UserController {
       return ErrorRespond(res, 404, "Cannot follow user!");
     }
     await updatedFollowings.save();
-    res.json({ message: "User followed successfully." });
+    res.status(200).send(updatedFollowings);
+  });
+
+  static unfollowUser = asyncHandler(async (req, res) => {
+    const { username, removeUser } = req.body;
+    if (!username || !removeUser) {
+      return ErrorRespond(res, 404, "Please provide all details!");
+    }
+
+    const currentUser = await User.find({ username });
+    if (!currentUser) {
+      return ErrorRespond(res, 404, "User doesn't exists!");
+    }
+
+    // Checking if the current user is following the intended user or not
+    if (
+      currentUser?.following?.some((user) => {
+        return user.username !== removeUser;
+      })
+    ) {
+      return ErrorRespond(res, 400, "You are not following this user!");
+    }
+
+    const updatedFollowings = await User.findOneAndUpdate(
+      { username: username },
+      { $pull: { following: { username: removeUser } } },
+      { new: true }
+    );
+    if (!updatedFollowings) {
+      return ErrorRespond(res, 404, "Cannot unfollow this user!");
+    }
+    await updatedFollowings.save();
+    res.status(200).send(updatedFollowings);
   });
 }
 module.exports = UserController;

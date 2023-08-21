@@ -31,7 +31,6 @@ class TweetController {
       const newTweet = new Tweet({
         username,
         tweet_message,
-        likes: 0,
       });
 
       await newTweet.save();
@@ -64,7 +63,7 @@ class TweetController {
       tweet.likes.push(currentUserUsername);
       tweet.save();
 
-      return res.status(200).json({ message: "Tweet liked successfully!" });
+      return res.status(200).json({ tweet });
     } catch (err) {
       console.error(err);
       return ErrorRespond(res, 500, "Internal server error");
@@ -94,7 +93,7 @@ class TweetController {
 
       await updatedTweet.save();
 
-      res.json({ message: "Tweet updated successfully.", tweet: updatedTweet });
+      res.status(200).send(updatedTweet);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -106,12 +105,12 @@ class TweetController {
       console.log(req.params.id, "req.params");
       const tweet_id = req.params.id;
       if (!tweet_id) return ErrorRespond(res, 400, "Please provide tweet_id");
-      
+
       const tweet = await Tweet.findById(tweet_id);
       if (!tweet) {
         return ErrorRespond(res, 404, "Tweet Not Found!");
       }
-      
+
       const deletedTweet = await Tweet.findByIdAndDelete(tweet_id);
 
       if (!deletedTweet)
