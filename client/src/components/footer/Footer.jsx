@@ -4,17 +4,17 @@ const Footer = () => {
   const socialLinks = [
     {
       name: "GitHub",
-      icon: <FaGithub />,
+      icon: <FaGithub style={{ color: "#333" }} />,
       link: "https://github.com/Vivek3072",
     },
     {
       name: "LinkedIn",
-      icon: <FaLinkedin />,
+      icon: <FaLinkedin style={{ color: "#0e76a8" }} />,
       link: "https://www.linkedin.com/in/vivek-srivas/",
     },
     {
       name: "Instagram",
-      icon: <FaInstagram />,
+      icon: <FaInstagram style={{ color: "#bc2a8d" }} />,
       link: "https://www.instagram.com/vvk_srvstv_/",
     },
   ];
@@ -35,8 +35,10 @@ const Footer = () => {
             </a>
           ))}
         </div>
-        <div className="text-sm mt-4">&copy; 2023 Your Company.</div>
-        <div className="text-sm mt-4">All rights reserved.</div>
+        <div className="text-sm text-center mt-4">
+          &copy; 2023 - Twitter Clone
+        </div>
+        <div className="text-sm text-center mt-4">All rights reserved.</div>
       </div>
     </footer>
   );

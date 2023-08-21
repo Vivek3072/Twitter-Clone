@@ -55,7 +55,7 @@ const TweetCard = ({ tweet, user, onEdit, onDelete }) => {
   }, [followError, loading, networkError, followResp, followData]);
 
   return (
-    <div className="border rounded p-3 mb-3">
+    <div className="bg-white shadow-sm border border-gray-100 rounded-md p-3 mb-3 hover:shadow-md">
       <div className="flex flex-row items-center justify-between mb-2">
         <div className="flex flex-row">
           <img
@@ -113,11 +113,11 @@ const TweetCard = ({ tweet, user, onEdit, onDelete }) => {
           </div>
         ) : (
           <div className="flex space-x-4">
-            <div className="flex items-center space-x-1 cursor-pointer">
+            <div className="flex items-center space-x-1 cursor-pointer text-gray-500">
               <FaEdit onClick={handleEdit} />
               <p>Edit</p>
             </div>
-            <div className="flex items-center space-x-1 cursor-pointer">
+            <div className="flex items-center space-x-1 cursor-pointer text-gray-500">
               <FaTrash onClick={() => onDelete(user)} />
               <p>Delete</p>
             </div>
