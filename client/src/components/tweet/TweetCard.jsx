@@ -193,7 +193,13 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
             className="w-full mb-2"
           />
         ) : (
-          <p className="py-2">{tweet_message}</p>
+          <div className="py-2">
+            {tweet_message}
+
+            {tweet?.isEdited && (
+              <span className="text-gray-400 italic text-xs mx-1">edited</span>
+            )}
+          </div>
         )}
 
         <div className="border-t p-2 flex justify-between items-center">

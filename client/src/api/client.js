@@ -1,8 +1,8 @@
 import { create } from "apisauce";
-import { BASE_URL } from "./BaseURL";
+import { LOCAL_URL } from "./BaseURL";
 
 const client = create({
-  baseURL: BASE_URL,
+  baseURL: LOCAL_URL,
 });
 
 client.addAsyncRequestTransform(async (request) => {
