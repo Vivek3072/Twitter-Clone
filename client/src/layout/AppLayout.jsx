@@ -9,17 +9,17 @@ const AppLayout = ({ children }) => {
   return (
     <>
       <div
-        className={`h-full grid md:grid-cols-5 grid-cols-1 md:grid-rows-1 grid-rows-auto px-1 md:px-5 lg:px-20 py-5 gap-[10px] ${
+        className={`h-full grid md:grid-cols-5 grid-cols-1 md:grid-rows-1 grid-rows-auto px-1 md:px-5 lg:px-20 py-2 md:py-5 gap-[10px] ${
           isDarkMode ? "bg-gray-800" : "bg-white"
         }`}
       >
         <div className="md:col-span-1 col-span-1">
           <Sidebar />
         </div>
-        <div className="h-full md:col-span-3 col-span-1 flex flex-row flex-1">
+        <div className="h-full md:col-span-3 col-span-1 flex flex-row items-center justify-center flex-1 px-1 md:px-10">
           <main className="w-full">{children}</main>
         </div>
-        <div className="md:col-span-1 col-span-1">
+        <div className="md:col-span-1 col-span-1 px-1">
           <Advertisement />
           <FollowMore />
           <Footer />

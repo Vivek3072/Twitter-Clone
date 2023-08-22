@@ -166,7 +166,9 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
     <>
       <div
         className={`${
-          isDarkMode ? "bg-gray-800 text-white border-gray-600" : "bg-white text-black border-gray-100"
+          isDarkMode
+            ? "bg-gray-800 text-white border-gray-600"
+            : "bg-white text-black border-gray-100"
         } shadow-sm border  rounded-md p-3 mb-3 hover:shadow-md`}
       >
         <div className="flex flex-row items-center justify-between mb-2">
@@ -208,7 +210,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
           </div>
         )}
 
-        <div className="border-t p-2 flex justify-between items-center">
+        <div className="border-t border-gray-400 p-2 flex justify-between items-center">
           <div className="flex space-x-4 text-gray-600">
             <div className="flex items-center space-x-1 cursor-pointer font-medium hover:text-blue-500">
               <FaRegHeart />

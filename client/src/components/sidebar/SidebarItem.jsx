@@ -6,11 +6,11 @@ const SidebarItem = ({ icon, text, linkTo, isActive }) => {
   return (
     <Link
       to={linkTo}
-      className={`w-full flex flex-col md:flex-row items-center justify-center md:justify-start md:space-x-2 md:pl-3 py-3 md:py-4 cursor-pointer text-gray-500 my-1 hover:rounded-full hover:text-blue-500 ${
-        isDarkMode ? "bg-gray-900 md:bg-gray-800 rounded-full" : "bg-white"
+      className={`w-full flex flex-col md:flex-row items-center justify-center md:justify-start md:space-x-2 md:pl-3 py-3 md:py-4 cursor-pointer text-gray-500 my-1 hover:rounded-full hover:text-blue-500 rounded-full ${
+        isDarkMode ? "bg-gray-900 md:bg-gray-800" : "bg-white"
       } ${
         isActive &&
-        "text-blue-500 md:drop-shadow-lg md:shadow-black-500 rounded-full"
+        "text-blue-500 md:drop-shadow-lg md:shadow-black-500"
       }`}
     >
       <div className={`text-base md:text-xl ${isActive && "text-blue-500"}`}>

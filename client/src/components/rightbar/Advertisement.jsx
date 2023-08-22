@@ -2,10 +2,10 @@ const Advertisement = () => {
   return (
     <section className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-5 rounded my-3">
       <div className="container mx-auto flex flex-col items-center">
-        <div className="text-3xl font-semibold mb-4">
+        <div className="text-2xl font-medium mb-4">
           Contribute to this project!
         </div>
-        <p className="text-lg mb-8">
+        <p className="mb-8">
           Create a fork, clone the repository to make changes and then create
           PR.
         </p>

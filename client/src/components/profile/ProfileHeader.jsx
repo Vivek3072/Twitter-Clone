@@ -6,7 +6,7 @@ const userHeader = ({ user, coverImage }) => {
   };
 
   return (
-    <div className="bg-gray-700 rounded rounded-xl overflow-hidden">
+    <div className="bg-gray-700 rounded rounded-xl overflow-hidden mt-3">
       <div style={headerStyle} className="mx-auto rounded w-full p-4">
         <div className="h-40 mb-4"></div>
         <div className="flex items-center space-x-4">
