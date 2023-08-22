@@ -1,8 +1,16 @@
 import { create } from "apisauce";
-import { LOCAL_URL } from "./BaseURL";
+import { BASE_URL, LOCAL_URL } from "./BaseURL";
+
+let baseURL = BASE_URL;
+
+if (process.env.NODE_ENV === "production") {
+  baseURL = BASE_URL;
+} else if (process.env.NODE_ENV === "development") {
+  baseURL = LOCAL_URL;
+}
 
 const client = create({
-  baseURL: LOCAL_URL,
+  baseURL: baseURL,
 });
 
 client.addAsyncRequestTransform(async (request) => {
