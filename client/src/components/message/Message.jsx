@@ -1,18 +1,24 @@
 import { TbMessage2Heart } from "react-icons/tb";
+import { useTheme } from "../../hooks/ThemeContext";
 
 export default function Message() {
+  const { isDarkMode } = useTheme();
   return (
     <div className="grid items-center h-full md:h-screen">
-      <div className="max-w-md flex justify-center flex-col mx-auto p-8 my-auto bg-white shadow-lg rounded-lg">
+      <div
+        className={`max-w-md flex justify-center flex-col mx-auto p-8 my-auto ${
+          isDarkMode ? "bg-gray-800 text-gray-200 border border-gray-700" : "bg-white"
+        } shadow-xl shadow-black-500/50 rounded-lg`}
+      >
         <div className="flex items-center justify-center my-3">
           <TbMessage2Heart className="text-blue-500 text-4xl mr-4" />
           <div className="text-2xl font-semibold">Messaging Feature</div>
         </div>
-        <p className="my-2 text-center text-gray-600">
+        <p className="my-2 text-center text-gray-500">
           We are excited to announce that we will soon implement a messaging
           feature!
         </p>
-        <p className="my-2 text-center text-gray-600">
+        <p className="my-2 text-center text-gray-500">
           Stay tuned for updates as we work on bringing this feature to you.
         </p>
 

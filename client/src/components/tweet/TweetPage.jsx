@@ -4,11 +4,13 @@ import TweetCard from "./TweetCard";
 import TweetsController from "../../api/tweets";
 import useApi from "../../hooks/useApi";
 import TweetCardLoader from "../loader/TweetCardLoader";
+import { useTheme } from "../../hooks/ThemeContext";
 
 const TweetPage = () => {
+  const { isDarkMode } = useTheme();
   const [tweets, setTweets] = useState([]);
   // const [myTweets, setMyTweets] = useState([]);
-
+  const [tab, setTab] = useState("timeline");
   const {
     res: allTweetsResp,
     data: allTweetsData,
@@ -53,14 +55,29 @@ const TweetPage = () => {
     <div className="flex h-screen overflow-auto">
       <div className="flex-grow p-4">
         <PostTweet setTweets={setTweets} />
-        <div className="flex flex-row justify-between border-b w-full my-3">
+        <div
+          className={`${
+            isDarkMode ? "text-gray-300" : ""
+          } flex flex-row justify-between w-full my-3`}
+        >
           <div
-            className="text-center text-lg
-           font-medium text-blue-500 p-2 w-full border-b-2 border-blue-500 hover:cursor-pointer"
+            className={`text-center text-lg
+           font-medium p-2 w-full border-b-2 hover:cursor-pointer ${
+             tab === "timeline" &&
+             "border-blue-500 text-blue-500 transition-all duration-300 drop-shadow-5xl"
+           }`}
+            onClick={() => setTab("timeline")}
           >
             Timeline
           </div>
-          <div className="text-center text-lg font-medium hover:text-blue-500 p-2 w-full border-b-2  hover:border-blue-500 hover:cursor-pointer">
+          <div
+            onClick={() => setTab("mytweets")}
+            className={`text-center text-lg
+           font-medium p-2 w-full border-b-2 hover:cursor-pointer ${
+             tab === "mytweets" &&
+             "border-blue-500 text-blue-500 transition-all duration-300 drop-shadow-5xl"
+           }`}
+          >
             My Tweets
           </div>
         </div>

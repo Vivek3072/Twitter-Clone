@@ -4,9 +4,12 @@ import AuthController from "../../api/auth";
 import useToken from "../../hooks/useToken";
 import UserContext from "../../hooks/UserContext";
 import UserLoader from "../loader/UserLoader";
+import { useTheme } from "../../hooks/ThemeContext";
 
 const UserList = () => {
   const { userData, setUserData } = useContext(UserContext);
+
+  const { isDarkMode } = useTheme();
 
   const [allUsers, setAllUsers] = useState([]);
   const {
@@ -128,14 +131,20 @@ const UserList = () => {
   ]);
 
   return (
-    <div className="bg-gray-50 rounded min-h-screen p-6 overflow-y-auto">
+    <div
+      className={`${
+        isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white"
+      } rounded h-full p-6 overflow-y-auto`}
+    >
       <h1 className="text-2xl font-semibold mb-4">User List on Tweeter</h1>
       <ul className="space-y-4">
         {allUsers && !loading ? (
           allUsers?.map((user) => (
             <li
               key={user._id}
-              className="bg-white p-4 rounded-lg shadow-md flex justify-between"
+              className={`${
+                isDarkMode ? "bg-gray-800 text-gray-300 border border-gray-700" : "bg-white text-black"
+              } p-4 rounded-lg shadow-md flex justify-between`}
             >
               <div>
                 <p className="text-lg font-semibold">{user.username}</p>

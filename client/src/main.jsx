@@ -11,6 +11,7 @@ import Message from "./components/message/Message";
 import Profile from "./components/profile/Profile";
 import People from "./components/people/People";
 import ContextLayout from "./layout/ContextLayout";
+import { ThemeProvider } from "./hooks/ThemeContext";
 
 if (process.env.NODE_ENV === "production") {
   console.log = () => {};
@@ -75,10 +76,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ContextLayout>
-      <RouterProvider router={router}>
-        <Outlet />
-      </RouterProvider>
-    </ContextLayout>
+    <ThemeProvider>
+      <ContextLayout>
+        <RouterProvider router={router}>
+          <Outlet />
+        </RouterProvider>
+      </ContextLayout>
+    </ThemeProvider>
   </React.StrictMode>
 );

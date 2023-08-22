@@ -2,7 +2,7 @@ const TweetCardLoader = () => {
   return (
     <div className="border rounded p-3 animate-pulse mb-3">
       <div className="flex flex-row items-center justify-between mb-2">
-        <div className="w-10 h-10 rounded-full-full bg-gray-300 rounded-full mr-3"></div>
+        <div className="w-10 h-10 rounded-full bg-gray-300 rounded-full mr-3"></div>
         <div className="w-2/5 h-5 bg-gray-300 rounded-full"></div>
         <div className="mx-2 my-auto w-20 h-4 bg-gray-300 rounded-full"></div>
       </div>

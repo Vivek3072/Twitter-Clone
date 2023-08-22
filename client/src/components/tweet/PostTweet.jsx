@@ -3,8 +3,10 @@ import TweetsController from "../../api/tweets";
 import useApi from "../../hooks/useApi";
 import useToken from "../../hooks/useToken";
 import { TbBrandTwitter } from "react-icons/tb";
+import { useTheme } from "../../hooks/ThemeContext";
 
 const PostTweet = ({ setTweets }) => {
+  const { isDarkMode } = useTheme();
   const [tweetText, setTweetText] = useState("");
   const { localUsername } = useToken();
   const {
@@ -53,7 +55,11 @@ const PostTweet = ({ setTweets }) => {
 
   return (
     <>
-      <div className="bg-white border rounded p-4 mb-4">
+      <div
+        className={`${
+          isDarkMode ? "bg-gray-800 text-white border-gray-600" : "bg-white text-black"
+        } border rounded p-4 mb-4`}
+      >
         <div className="flex flex-row items-center  space-x-2 mb-2">
           <img
             src={`https://avatars.dicebear.com/api/identicon/${localUsername}.svg`}
@@ -63,7 +69,9 @@ const PostTweet = ({ setTweets }) => {
           <div className="text-xl font-semibold">Post a Tweet</div>
         </div>
         <textarea
-          className="w-full p-2 border rounded mb-2"
+          className={`${
+            isDarkMode ? "bg-gray-800 text-white border-gray-600" : "bg-white text-black"
+          } w-full p-2 border rounded mb-2`}
           rows="3"
           value={tweetText}
           onChange={(e) => setTweetText(e.target.value)}

@@ -7,9 +7,11 @@ import useToken from "../../hooks/useToken";
 import TweetsController from "../../api/tweets";
 import Toast from "../utils/Toast";
 import UserContext from "../../hooks/UserContext";
+import { useTheme } from "../../hooks/ThemeContext";
 
 const TweetCard = ({ tweet, tweets, setTweets }) => {
-  // console.log(tweet?._id, "tweet");
+  const { isDarkMode } = useTheme();
+
   const { _id: tweet_id, username, createdAt, tweet_message, likes } = tweet;
   const { userData } = useContext(UserContext);
 
@@ -162,7 +164,11 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
 
   return (
     <>
-      <div className="bg-white shadow-sm border border-gray-100 rounded-md p-3 mb-3 hover:shadow-md">
+      <div
+        className={`${
+          isDarkMode ? "bg-gray-800 text-white border-gray-600" : "bg-white text-black border-gray-100"
+        } shadow-sm border  rounded-md p-3 mb-3 hover:shadow-md`}
+      >
         <div className="flex flex-row items-center justify-between mb-2">
           <div className="flex flex-row">
             <img

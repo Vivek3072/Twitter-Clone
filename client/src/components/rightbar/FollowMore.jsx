@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import AuthController from "../../api/auth";
 import UserLoader from "../loader/UserLoader";
+import { useTheme } from "../../hooks/ThemeContext";
 
 const FollowMore = () => {
+  const { isDarkMode } = useTheme();
   const [followedAccounts, setFollowedAccounts] = useState([]);
 
   const {
@@ -36,7 +38,11 @@ const FollowMore = () => {
 
   return (
     <>
-      <div className="bg-white border rounded p-4 mb-4 my-2">
+      <div
+        className={`${
+          isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white"
+        } border rounded p-4 mb-4 my-2`}
+      >
         <div className="text-xl font-medium mb-2">Accounts you follow</div>
         <ul>
           {followedAccounts && !loading ? (
