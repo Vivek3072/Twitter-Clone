@@ -82,10 +82,9 @@ class TweetController {
 
       const updatedTweet = await Tweet.findByIdAndUpdate(
         tweet_id,
-        { $set: { tweet_message: tweet_message } },
+        { $set: { tweet_message: tweet_message, isEdited: true } },
         { new: true }
       );
-
       if (!updatedTweet)
         return res
           .status(404)

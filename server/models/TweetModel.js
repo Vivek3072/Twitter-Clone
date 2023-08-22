@@ -18,6 +18,11 @@ const tweetSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  isEdited: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const Tweet = mongoose.model("Tweet", tweetSchema);
