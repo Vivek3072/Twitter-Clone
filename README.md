@@ -11,7 +11,9 @@ Welcome to the Twitter Clone application! This project is built using the MERN (
 - **Edit and Delete Tweets:** Edit and delete your own tweets.
 - **Follow/Unfollow Users:** Follow and unfollow other users to see their tweets on your feed.
 - **Realtime Chat (Future Enhancement):** Plan to add real-time chat functionality for seamless communication.
-- **Dark Mode (Future Enhancement):** Implement a dark mode theme for better user experience.
+- **Dark Mode (Future Enhancement):** Implement a dark mode theme also, for better user experience.
+- **Redux (Future enhancement):** Setup redux in this project for better state management
+- **React Query (Future enhancement):** 
 - **...and More (Future Plans):** The application is continuously being improved with additional features and enhancements.
 
 ## Getting Started
@@ -19,8 +21,8 @@ Welcome to the Twitter Clone application! This project is built using the MERN (
 1. Clone the repository.
 2. Navigate to the project directory and install dependencies using `npm install`.
 3. Create a `.env` file in the server directory and configure environment variables.
-4. Run the backend server using `npm run server` in the server directory.
-5. Run the frontend React app using `npm start` in the client directory.
+4. Run the backend server using `nodemon` in the server directory.
+5. Run the frontend React app using `npm run dev` in the client directory.
 
 ## Technologies Used
 
@@ -37,7 +39,7 @@ Welcome to the Twitter Clone application! This project is built using the MERN (
 
 ## Contributing
 
-Contributions are welcome! If you have ideas for improvements, new features, or bug fixes, feel free to open an issue or submit a pull request.
+Contributions are welcome! If you have ideas for improvements, new features, or bug fixes, feel free to open an issue or submit a pull request. Don't forget to give it a star ⭐.
 
 ## Connect with Me
 
