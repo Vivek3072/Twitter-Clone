@@ -12,6 +12,7 @@ import Profile from "./components/profile/Profile";
 import People from "./components/people/People";
 import ContextLayout from "./layout/ContextLayout";
 import { ThemeProvider } from "./hooks/ThemeContext";
+import ErrorPage from "./components/error/ErrorPage";
 
 if (process.env.NODE_ENV === "production") {
   console.log = () => {};
@@ -27,17 +28,17 @@ const router = createBrowserRouter([
         </Protected>
       </AppLayout>
     ),
-    errorElement: <div>Error Page</div>,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/login",
     element: <Login />,
-    errorElement: <div>Error Page</div>,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/register",
     element: <Registration />,
-    errorElement: <div>Error Page</div>,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/message",
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
         </Protected>
       </AppLayout>
     ),
-    errorElement: <div>Error Page</div>,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/profile",
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
         </Protected>
       </AppLayout>
     ),
-    errorElement: <div>Error Page</div>,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/people",
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
         </Protected>
       </AppLayout>
     ),
-    errorElement: <div>Error Page</div>,
+    errorElement: <ErrorPage />,
   },
 ]);
 

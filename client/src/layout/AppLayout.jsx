@@ -16,7 +16,7 @@ const AppLayout = ({ children }) => {
         <div className="md:col-span-1 col-span-1">
           <Sidebar />
         </div>
-        <div className="h-full md:col-span-3 col-span-1 flex flex-row items-center justify-center flex-1 px-1 md:px-10">
+        <div className="h-full md:col-span-3 col-span-1 flex flex-row items-start justify-center flex-1 px-1 md:px-10">
           <main className="w-full">{children}</main>
         </div>
         <div className="md:col-span-1 col-span-1 px-1">

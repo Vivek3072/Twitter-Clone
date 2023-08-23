@@ -198,7 +198,9 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
           <textarea
             value={editedText}
             onChange={(e) => setEditedText(e.target.value)}
-            className="w-full mb-2"
+            className={`${
+              isDarkMode ? "bg-gray-800" : "bg-white"
+            } border border-gray-400 pl-2 py-1 w-full mb-2`}
           />
         ) : (
           <div className="py-2">
