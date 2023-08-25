@@ -46,8 +46,7 @@ const Sidebar = () => {
       <div
         className={`${
           isDarkMode ? "bg-gray-900 md:bg-gray-800" : "bg-white"
-        } z-20 rounded-full md:relative fixed md:top-auto bottom-0 w-[92%] md:shadow-none drop-shadow-none drop-shadow-lg px-1 my-1 flex md:flex-col flex-row`}
-        style={{ boxShadow: "0px 0px 10px -1px rgba(0, 0, 0, 0.25)" }}
+        } sidebar_shadow z-20 rounded-full md:relative fixed md:top-auto bottom-0 w-[92%] md:shadow-none drop-shadow-none drop-shadow-lg px-1 my-1 flex md:flex-col flex-row`}
       >
         {sidebarItems.map((item, index) => (
           <SidebarItem

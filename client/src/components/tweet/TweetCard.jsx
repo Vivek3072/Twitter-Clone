@@ -178,16 +178,20 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
               alt={`User ${username}`}
               className="w-10 h-10 rounded-full mr-3"
             />
-            <div className="text-lg font-medium">{`@${username}`}</div>
-            {userData?.following?.find((data) => data.username === username) ? (
-              <div className="text-blue-500 px-2 py-1 rounded md:ml-2">
-                Following
-              </div>
-            ) : (
-              <div className="text-orange-500 px-2 py-1 rounded md:ml-2">
-                Not Following
-              </div>
-            )}
+            <div className="flex flex-col justify-start">
+              <div className="text-lg font-medium">{`@${username}`}</div>
+              {userData?.following?.find(
+                (data) => data.username === username
+              ) ? (
+                <div className="text-blue-500 text-xs rounded md:ml-2">
+                  Following
+                </div>
+              ) : (
+                <div className="text-gray-400 text-xs rounded md:ml-2">
+                  Not Following
+                </div>
+              )}
+            </div>
           </div>
           <div className="md:mx-2 my-auto text-sm text-gray-500 w-fit order-last flex flex-wrap justify-end">
             <span className="text-xs">{formattedDateString}-</span>
