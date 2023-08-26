@@ -15,3 +15,14 @@ body {
     box-shadow: 0px 0px 10px -1px rgba(0, 0, 0, 0.25);
   }
 }
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: none;
+  border-radius: 10%;
+}
+
+/* Apply Tailwind classes to scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(134, 134, 134, 0.432);
+}

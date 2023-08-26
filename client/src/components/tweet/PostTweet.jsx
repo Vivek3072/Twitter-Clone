@@ -8,8 +8,31 @@ import { useTheme } from "../../hooks/ThemeContext";
 
 const PostTweet = ({ setTweets }) => {
   const { isDarkMode } = useTheme();
-  const [tweetText, setTweetText] = useState("");
   const { localUsername } = useToken();
+
+  const [tweetText, setTweetText] = useState("");
+
+  const [file, setFile] = useState("");
+  const [image, setImage] = useState("");
+  const [error, setError] = useState("");
+
+  const previewFileImage = (uploadedFile) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(uploadedFile);
+
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+    // console.log(image, "image");
+  };
+
+  const handleFileChange = (e) => {
+    // e.preventDefault()
+    const uploadedFile = e.target.files[0];
+    setFile(uploadedFile);
+    previewFileImage(uploadedFile);
+  };
+
   const {
     res: postTweetsResp,
     data: postTweetsData,
@@ -24,6 +47,7 @@ const PostTweet = ({ setTweets }) => {
       await postTweet({
         username: localUsername,
         tweet_message: tweetText,
+        image: image,
       });
     } catch (err) {
       console.log(err);
@@ -39,12 +63,16 @@ const PostTweet = ({ setTweets }) => {
       !postLoading
     ) {
       setTweetText("");
+      setImage("");
+      setError("");
       setTweets((prev) => [postTweetsData, ...prev]);
       console.log(postTweetsData, "postTweetsData!");
-    } else if (postNetworkError) {
+    } else if (postNetworkError || postError) {
       console.log("Network Error!");
+      setError("Image large!");
     }
   }, [
+    error,
     setTweets,
     setTweetText,
     postError,
@@ -53,13 +81,6 @@ const PostTweet = ({ setTweets }) => {
     postTweetsData,
     postTweetsResp,
   ]);
-
-  const [file, setFile] = useState();
-
-  const handleFile = (e)=>{
-    // e.preventDefault()
-    setFile(e.target.files[0])
-  }
 
   return (
     <>
@@ -89,6 +110,12 @@ const PostTweet = ({ setTweets }) => {
           onChange={(e) => setTweetText(e.target.value)}
           placeholder="What's happening?"
         />
+        {error.length > 0 && <div className="text-red-400">{error}</div>}
+        {image && (
+          <div className="px-2 md:px-10 w-full h-fit max-h-[50vh] rounded-lg overflow-auto mb-2 snap-center">
+            <img src={image} alt="image" className="rounded-lg" />
+          </div>
+        )}
 
         <div className="flex justify-betweeb">
           <label
@@ -96,13 +123,18 @@ const PostTweet = ({ setTweets }) => {
             className={`${
               isDarkMode ? "bg-gray-700" : "bg-gray-200"
             } hover:cursor-pointer p-2 rounded-full flex justify-center items-center`}
-            onClick={handleFile}
+            // onClick={handleFileChange}
           >
             <MdOutlineFileUpload size={25} />
-            <input type="file" id="file" name="file" className="hidden" />
-            {/* <div>{file}</div> */}
+            <input
+              onChange={handleFileChange}
+              type="file"
+              id="file"
+              name="file"
+              className="hidden"
+              accept=".jpg, .jpeg, .png, .webp, .svg, .ico, .jfif"
+            />
           </label>
-
           <button
             onClick={handlePost}
             className={`ml-auto flex flex-row items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-full ${

@@ -12,7 +12,14 @@ import { useTheme } from "../../hooks/ThemeContext";
 const TweetCard = ({ tweet, tweets, setTweets }) => {
   const { isDarkMode } = useTheme();
 
-  const { _id: tweet_id, username, createdAt, tweet_message, likes } = tweet;
+  const {
+    _id: tweet_id,
+    username,
+    image: uploadedImgUrl,
+    createdAt,
+    tweet_message,
+    likes,
+  } = tweet;
   const { userData } = useContext(UserContext);
 
   let postLikes = likes.length;
@@ -26,6 +33,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
   const formattedTimeString = formattedDate.toLocaleTimeString();
 
   const [toast, setToast] = useState(false);
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(tweet_message);
   const { localUsername } = useToken();
@@ -215,7 +223,15 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
             )}
           </div>
         )}
-
+        {uploadedImgUrl && (
+          <div className="px-2 md:px-10 w-full h-fit max-h-[50vh] rounded-lg overflow-auto mb-2 snap-center">
+            <img
+              src={uploadedImgUrl}
+              alt="tweet_image"
+              className="rounded-lg"
+            />
+          </div>
+        )}
         <div className="border-t border-gray-400 p-2 flex justify-between items-center">
           <div className="flex space-x-4 text-gray-600">
             <div className="flex items-center space-x-1 cursor-pointer font-medium hover:text-blue-500">
