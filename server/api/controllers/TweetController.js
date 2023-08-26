@@ -1,5 +1,6 @@
 const ErrorRespond = require("../../helpers/ErrorRespond");
 const Tweet = require("../../models/TweetModel");
+const cloudinary = require("../../config/cloudinary");
 
 class TweetController {
   static async getTweets(req, res) {
@@ -24,13 +25,47 @@ class TweetController {
   }
   static async createTweet(req, res) {
     try {
-      const { username, tweet_message } = req.body;
+      const { username, tweet_message, image } = req.body;
       if (!username || !tweet_message)
         res.status(500).send({ message: "All fields mandatory!" });
+
+      let uploadedImage = "";
+      // if (image) {
+      if (image) {
+        uploadedImage =
+          (await cloudinary.uploader.upload(
+            image,
+            {
+              // upload_preset: "unsigned_upload",
+              // public_id: `${username}tweet`,
+              folder: "User_Tweets",
+              allowed_formats: [
+                "png",
+                "jpg",
+                "jpeg",
+                "webp",
+                "svg",
+                "ico",
+                "jfif",
+              ],
+            },
+            function (error, result) {
+              if (error) {
+                console.log(error, "CLOUDINARY ERROR");
+                return ErrorRespond(res, 400, "Image too large!");
+              }
+              console.log(result);
+              // return res.status(200).send(result);
+            }
+          )) || "";
+      }
+      // }
+
       // Create a new tweet
       const newTweet = new Tweet({
         username,
         tweet_message,
+        image: uploadedImage.secure_url,
       });
 
       await newTweet.save();

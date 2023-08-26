@@ -19,6 +19,14 @@ class UserController {
 
     if (!username) return ErrorRespond(res, 400, "Username is required");
     else if (!email) return ErrorRespond(res, 400, "Email is required");
+    else if (
+      !String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    )
+      return ErrorRespond(res, 400, "Please enter a valid email.");
     else if (!password) return ErrorRespond(res, 400, "Password is required");
     else if (password.length < 6)
       return ErrorRespond(res, 400, "Password is too short!");
