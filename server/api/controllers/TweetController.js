@@ -30,14 +30,12 @@ class TweetController {
         res.status(500).send({ message: "All fields mandatory!" });
 
       let uploadedImage = "";
-      // if (image) {
       if (image) {
         uploadedImage =
           (await cloudinary.uploader.upload(
             image,
             {
-              // upload_preset: "unsigned_upload",
-              // public_id: `${username}tweet`,
+              quality: "auto",
               folder: "User_Tweets",
               allowed_formats: [
                 "png",
@@ -54,12 +52,10 @@ class TweetController {
                 console.log(error, "CLOUDINARY ERROR");
                 return ErrorRespond(res, 400, "Image too large!");
               }
-              console.log(result);
-              // return res.status(200).send(result);
+              // console.log(result);
             }
           )) || "";
       }
-      // }
 
       // Create a new tweet
       const newTweet = new Tweet({
