@@ -2,7 +2,7 @@ import { FaHome, FaUserCircle, FaUsers, FaSignOutAlt } from "react-icons/fa";
 import { BsFillChatTextFill } from "react-icons/bs";
 import SidebarItem from "./SidebarItem";
 import useToken from "../../hooks/useToken";
-import Logo from "../../assets/Logo.svg";
+import Tweeter from "../../assets/Tweeter.svg";
 import { Link, useLocation } from "react-router-dom";
 import ToggleButton from "./ToggleButton";
 import { useTheme } from "../../hooks/ThemeContext";
@@ -34,7 +34,7 @@ const Sidebar = () => {
     >
       <div className="w-full text-xl my-2 md:my-5 space-x-1 flex flex-row items-center justify-between w-full mx-1">
         <Link to="/" className="flex flex-row items-center">
-          <img src={Logo} className="w-8 h-8" alt="Logo" />
+          <img src={Tweeter} className="w-8 h-8" alt="Tweeter" />
           <div className={`text-sky-500 font-bold font-mono ml-1 text-2xl`}>
             Tweeter
           </div>

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import Logo from "../../assets/Logo.svg";
+import Tweeter from "../../assets/Tweeter.svg";
 
 const ErrorPage = () => {
   return (
     <div className="bg-gray-800 text-white grid grid-cols-1 md:grid-cols-2 px-2 md:px-15 h-screen items-center justify-center m-auto">
       <div className="py-5">
         <img
-          src={Logo}
+          src={Tweeter}
           alt="404 Illustration"
           className="w-30 md:w-50 mx-auto mb-6"
         />
