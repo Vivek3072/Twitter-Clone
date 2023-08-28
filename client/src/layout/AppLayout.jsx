@@ -1,6 +1,5 @@
 import Footer from "../components/footer/Footer";
 import Advertisement from "../components/rightbar/Advertisement";
-import FollowMore from "../components/rightbar/FollowMore";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useTheme } from "../hooks/ThemeContext";
 
@@ -21,7 +20,6 @@ const AppLayout = ({ children }) => {
         </div>
         <div className="md:col-span-1 col-span-1 px-1">
           <Advertisement />
-          <FollowMore />
           <Footer />
         </div>
       </div>
