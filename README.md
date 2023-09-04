@@ -1,8 +1,14 @@
 ## TWEETER APP
 
-### Project URL - https://twitter-clone-zwb6.onrender.com/
+### Project URL(render) - https://twitter-clone-zwb6.onrender.com/
+### Project URL(netlify) - https://tweeter-web.netlify.app/
 
 Welcome to the Twitter Clone application! This project is built using the MERN (MongoDB, Express, React, Node.js) stack and aims to provide a simplified version of Twitter's functionalities.
+
+[![Lighthouse Status](https://img.shields.io/badge/-Performance%2098-09864c?style=flat-square&logo=lighthouse&logoColor=white)](https://app.netlify.com/sites/tweeter-web/deploys/)
+[![Lighthouse Status](https://img.shields.io/badge/-Accessibility%2077-ff7733?style=flat-square&logo=lighthouse&logoColor=white)](https://app.netlify.com/sites/tweeter-web/deploys/)
+[![Lighthouse Status](https://img.shields.io/badge/-Best%20Practices%20100-09864c?style=flat-square&logo=lighthouse&logoColor=white)](https://app.netlify.com/sites/tweeter-web/deploys/)
+[![Lighthouse Status](https://img.shields.io/badge/-SEO%2091-09864c?style=flat-square&logo=lighthouse&logoColor=white)](https://app.netlify.com/sites/tweeter-web/deploys/)
 
 ## Features
 
