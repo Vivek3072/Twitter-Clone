@@ -8,11 +8,13 @@ const {
   followUsers,
   getAllUsers,
   unfollowUser,
+  updatePicture,
 } = require("../controllers/UserController");
 const validateToken = require("../../middlewares/ValidateToken");
 
 router.get("/all", validateToken, getAllUsers);
 router.post("/register", registerUser);
+router.post("/update-picture", validateToken, updatePicture);
 router.post("/login", loginUser);
 router.post("/follow", validateToken, followUsers);
 router.post("/unfollow", validateToken, unfollowUser);

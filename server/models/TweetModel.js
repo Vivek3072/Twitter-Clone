@@ -9,6 +9,7 @@ const tweetSchema = new mongoose.Schema({
   profilePic: {
     type: String,
     required: true,
+    ref: "User",
   },
   tweet_message: {
     type: String,

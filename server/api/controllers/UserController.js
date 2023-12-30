@@ -12,7 +12,8 @@ class UserController {
       if (!users) return ErrorRespond(res, 400, "Users not found!");
       return res.status(200).send(users);
     } catch (err) {
-      //
+      console.error(err);
+      return ErrorRespond(res, 500, "Internal server error");
     }
   });
   static registerUser = asyncHandler(async (req, res) => {
@@ -107,6 +108,34 @@ class UserController {
     if (!user) return ErrorRespond(res, 404, "User not found!");
     else return res.status(200).json({ user });
   });
+
+  static async updatePicture(req, res) {
+    try {
+      const { username, profilePic } = req.body;
+
+      const userExists = await User.findOne({ username: username });
+      if (!userExists) return ErrorRespond(res, 404, "User not found!");
+
+      if (!profilePic)
+        return ErrorRespond(res, 404, "Please provide a profile picture!");
+
+      const updatedPicture = await User.findOneAndUpdate(
+        { username: username },
+        { $set: { profilePic: profilePic } },
+        { new: true }
+      );
+
+      const updated = await updatedPicture.save();
+      if (!updated) return ErrorRespond(res, 400, "Cannot update!");
+
+      return res
+        .status(200)
+        .send({ message: "Profile Picture Updated Successfully!" });
+    } catch (err) {
+      console.error(err);
+      return ErrorRespond(res, 500, "Internal server error");
+    }
+  }
 
   static followUsers = asyncHandler(async (req, res) => {
     const { username, followUser } = req.body;

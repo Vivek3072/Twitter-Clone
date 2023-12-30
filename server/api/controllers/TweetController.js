@@ -1,5 +1,4 @@
 const ErrorRespond = require("../../helpers/ErrorRespond");
-const User = require("../../models/UserModel");
 const Tweet = require("../../models/TweetModel");
 const cloudinary = require("../../config/cloudinary");
 
@@ -71,28 +70,6 @@ class TweetController {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
-    }
-  }
-
-  static async updatePicture(req, res) {
-    try {
-      const { username, profilePic } = req.body;
-
-      const userExists = await User.findOne({ username: username });
-      if (!userExists) return ErrorRespond(res, 404, "User not found!");
-
-      if (!profilePic)
-        return ErrorRespond(res, 404, "Please provide a profile picture!");
-
-      userExists.profilePic = profilePic;
-      await userExists.save();
-
-      return res
-        .status(200)
-        .send({ message: "Profile Picture Updated Successfully!" });
-    } catch (err) {
-      console.error(err);
-      return ErrorRespond(res, 500, "Internal server error");
     }
   }
 
