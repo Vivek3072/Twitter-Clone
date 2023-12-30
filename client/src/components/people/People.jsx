@@ -52,7 +52,7 @@ const UserList = () => {
   } = useApi(AuthController.followUserReq);
 
   const handleFollowUser = async (user) => {
-    console.log(localUsername, user, "Handlefollow");
+    // console.log(localUsername, user, "Handlefollow");
     try {
       await followUserReq({
         username: localUsername,
@@ -136,19 +136,30 @@ const UserList = () => {
         isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white"
       } rounded h-full p-6 overflow-y-auto`}
     >
-      <h1 className="text-2xl font-semibold mb-4">User List on Tweeter</h1>
+      <h1 className="text-2xl font-semibold mb-4">
+        User&apos;s List on Tweeter
+      </h1>
       <ul className="space-y-4">
         {allUsers && !loading ? (
           allUsers?.map((user) => (
             <li
               key={user._id}
               className={`${
-                isDarkMode ? "bg-gray-800 text-gray-300 border border-gray-700" : "bg-white text-black"
+                isDarkMode
+                  ? "bg-gray-800 text-gray-300 border border-gray-700"
+                  : "bg-white text-black"
               } p-4 rounded-lg shadow-md flex justify-between`}
             >
-              <div>
-                <p className="text-lg font-semibold">{user.username}</p>
-                <p className="text-gray-600">{user.email}</p>
+              <div className="flex flex-row items-center">
+                <img
+                  src={user.profilePic}
+                  alt={user.username}
+                  className="w-10 h-10 rounded-full"
+                />
+                <div className="ml-2">
+                  <p className="text-lg font-semibold">{user.username}</p>
+                  <p className="text-gray-600">{user.email}</p>
+                </div>
               </div>
 
               {user.username !== localUsername && (
