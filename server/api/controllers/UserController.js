@@ -166,7 +166,14 @@ class UserController {
 
     const updatedFollowings = await User.findOneAndUpdate(
       { username: username },
-      { $addToSet: { following: { username: followUser } } },
+      {
+        $addToSet: {
+          following: {
+            username: followUser,
+            profilePic: userToFollowData.profilePic,
+          },
+        },
+      },
       { new: true }
     );
     if (!updatedFollowings) {
