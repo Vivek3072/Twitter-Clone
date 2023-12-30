@@ -7,6 +7,11 @@ const userSchema = mongoose.Schema(
       required: [true, "Please add the user name"],
       unique: [true, "Username already taken"],
     },
+    profilePic: {
+      type: String,
+      required: false,
+      default: "https://xsgames.co/randomusers/assets/avatars/pixel/3.jpg",
+    },
     email: {
       type: String,
       required: [true, "Please add the email"],
@@ -30,7 +35,8 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.methods.generateAuthToken = function (userId) {
-  const token = jwt.sign({
+  const token = jwt.sign(
+    {
       _id: userId,
       username: this.username,
       email: this.email,

@@ -6,6 +6,10 @@ const tweetSchema = new mongoose.Schema({
     required: true,
     // ref: "User", // Reference to the User model
   },
+  profilePic: {
+    type: String,
+    required: true,
+  },
   tweet_message: {
     type: String,
     required: true,

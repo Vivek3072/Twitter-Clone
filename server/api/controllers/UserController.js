@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/UserModel");
 const ErrorRespond = require("../../helpers/ErrorRespond");
+const generateRandomNum = require("../../helpers/generateRandomNum");
 
 class UserController {
   static getAllUsers = asyncHandler(async (req, res) => {
@@ -43,11 +44,14 @@ class UserController {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const randomNumber = generateRandomNum(1, 50);
+
     const newUser = await User.create({
       username,
       email,
       following: [],
       password: hashedPassword,
+      profilePic: `https://xsgames.co/randomusers/assets/avatars/pixel/${randomNumber}.jpg`,
     });
     if (newUser) {
       const accessToken = jwt.sign(

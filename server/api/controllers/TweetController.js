@@ -25,7 +25,7 @@ class TweetController {
   }
   static async createTweet(req, res) {
     try {
-      const { username, tweet_message, image } = req.body;
+      const { username, profilePic, tweet_message, image } = req.body;
       if (!username || !tweet_message)
         res.status(500).send({ message: "All fields mandatory!" });
 
@@ -60,6 +60,7 @@ class TweetController {
       // Create a new tweet
       const newTweet = new Tweet({
         username,
+        profilePic: profilePic,
         tweet_message,
         image: uploadedImage.secure_url,
       });
