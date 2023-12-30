@@ -43,7 +43,13 @@ const FollowMore = () => {
           isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white"
         } border rounded p-4 mb-4 my-2`}
       >
-        <div className="text-xl font-medium mb-2">Accounts you follow</div>
+        {followedAccounts.length > 0 ? (
+          <div className="text-xl font-medium mb-2">Accounts you follow</div>
+        ) : (
+          <div className="text-xl font-medium mb-2">
+            The accounts you follow will be shown here
+          </div>
+        )}
         <ul>
           {followedAccounts && !loading ? (
             followedAccounts?.map((account, idx) => (

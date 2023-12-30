@@ -4,6 +4,10 @@ export default {
   theme: {
     extend: {
       boxShadow: ["hover"],
+      colors: {
+        primary: "#3B82F6",
+        primaryDark: "#2563EB",
+      },
     },
   },
   plugins: [],

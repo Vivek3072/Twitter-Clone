@@ -25,4 +25,8 @@ export default class AuthController {
     const user = await client.post("/auth/unfollow", data);
     return user;
   }
+  static async updatePicture(data) {
+    const picture = await client.put("/auth/update-picture", data);
+    return picture;
+  }
 }
