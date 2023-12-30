@@ -11,7 +11,9 @@ import { useTheme } from "../../hooks/ThemeContext";
 
 const TweetCard = ({ tweet, tweets, setTweets }) => {
   const { isDarkMode } = useTheme();
-
+  const { userData } = useContext(UserContext);
+  // console.log(tweets,"tweets");
+  
   const {
     _id: tweet_id,
     username,
@@ -19,8 +21,8 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
     createdAt,
     tweet_message,
     likes,
+    profilePic
   } = tweet;
-  const { userData } = useContext(UserContext);
 
   let postLikes = likes.length;
 
@@ -182,7 +184,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
         <div className="flex flex-row items-center justify-between mb-2">
           <div className="flex flex-row">
             <img
-              src={`https://avatars.dicebear.com/api/identicon/${username}.svg`}
+              src={profilePic}
               alt={`User ${username}`}
               className="w-10 h-10 rounded-full mr-3"
             />
@@ -224,7 +226,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
           </div>
         )}
         {uploadedImgUrl && (
-          <div className="px-2 md:px-10 w-full h-fit max-h-[50vh] rounded-lg overflow-auto mb-2 snap-center">
+          <div className="flex items-center justify-center bg-gray-500 bg-opacity-10 px-2 md:px-10 w-full h-fit max-h-[50vh] rounded-lg overflow-auto mb-2 snap-center">
             <img
               src={uploadedImgUrl}
               alt="tweet_image"

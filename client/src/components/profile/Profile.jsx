@@ -50,7 +50,7 @@ export default function Profile() {
       <ProfileHeader
         user={user}
         username={user.username}
-        avatar={profile.avatar}
+        avatar={user.profilePic}
         coverImage={profile.coverImage}
       />
       <FollowMore />

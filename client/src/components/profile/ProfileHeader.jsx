@@ -1,4 +1,4 @@
-const userHeader = ({ user, coverImage }) => {
+const userHeader = ({ user, coverImage, avatar }) => {
   const headerStyle = {
     backgroundImage: `url(${coverImage})`,
     backgroundSize: "cover",
@@ -11,7 +11,7 @@ const userHeader = ({ user, coverImage }) => {
         <div className="h-40 mb-4"></div>
         <div className="flex items-center space-x-4">
           <img
-            src={`https://avatars.dicebear.com/api/identicon/${user.username}.svg`}
+            src={avatar}
             alt="Avatar"
             className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
           />

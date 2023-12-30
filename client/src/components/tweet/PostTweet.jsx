@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TweetsController from "../../api/tweets";
 import useApi from "../../hooks/useApi";
-import useToken from "../../hooks/useToken";
 import { TbBrandTwitter } from "react-icons/tb";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useTheme } from "../../hooks/ThemeContext";
+import UserContext from "../../hooks/UserContext";
 
 const PostTweet = ({ setTweets }) => {
   const { isDarkMode } = useTheme();
-  const { localUsername } = useToken();
 
+  const { userData } = useContext(UserContext);
   const [tweetText, setTweetText] = useState("");
 
-  const [file, setFile] = useState("");
+  // const [file, setFile] = useState("");
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
 
@@ -29,7 +29,7 @@ const PostTweet = ({ setTweets }) => {
   const handleFileChange = (e) => {
     // e.preventDefault()
     const uploadedFile = e.target.files[0];
-    setFile(uploadedFile);
+    // setFile(uploadedFile);
     previewFileImage(uploadedFile);
   };
 
@@ -45,7 +45,8 @@ const PostTweet = ({ setTweets }) => {
   const handlePost = async () => {
     try {
       await postTweet({
-        username: localUsername,
+        username: userData.username,
+        profilePic: userData.profilePic,
         tweet_message: tweetText,
         image: image,
       });
@@ -69,7 +70,7 @@ const PostTweet = ({ setTweets }) => {
       console.log(postTweetsData, "postTweetsData!");
     } else if (postNetworkError || postError) {
       console.log("Network Error!");
-      setError("Image large!");
+      setError("Image size should not be more than 10MB");
     }
   }, [
     error,
@@ -93,8 +94,8 @@ const PostTweet = ({ setTweets }) => {
       >
         <div className="flex flex-row items-center  space-x-2 mb-2">
           <img
-            src={`https://avatars.dicebear.com/api/identicon/${localUsername}.svg`}
-            alt={localUsername}
+            src={userData.profilePic}
+            alt={userData.username}
             className="w-8 h-8 rounded-full"
           />
           <div className="text-xl font-semibold">Post a Tweet</div>
