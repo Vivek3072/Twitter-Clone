@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/UserModel");
 const ErrorRespond = require("../../helpers/ErrorRespond");
 const generateRandomNum = require("../../helpers/generateRandomNum");
+const Tweet = require("../../models/TweetModel");
 
 class UserController {
   static getAllUsers = asyncHandler(async (req, res) => {
@@ -124,10 +125,13 @@ class UserController {
         { $set: { profilePic: profilePic } },
         { new: true }
       );
-
       const updated = await updatedPicture.save();
       if (!updated) return ErrorRespond(res, 400, "Cannot update!");
 
+      await Tweet.updateMany(
+        { username: userExists.username },
+        { $set: { profilePic: profilePic } }
+      );
       return res
         .status(200)
         .send({ message: "Profile Picture Updated Successfully!" });

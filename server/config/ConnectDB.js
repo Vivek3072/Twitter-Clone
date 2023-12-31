@@ -6,8 +6,8 @@ const dotenv = require("dotenv").config();
 const connectDb = async () => {
   try {
     const connect = await mongoose.connect(process.env.CONNECTION_STRING);
-    console.log("Database connected:- ".blue + "✔".green);
-    console.log("Database name : ".blue, connect.connection.name);
+    console.log(" Database connected ".bgMagenta);
+    console.log("Database name : ".magenta, connect.connection.name);
   } catch (err) {
     console.log(err);
     process.exit(1);
