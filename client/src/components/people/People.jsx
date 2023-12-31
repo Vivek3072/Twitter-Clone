@@ -134,7 +134,7 @@ const UserList = () => {
     <div
       className={`${
         isDarkMode ? "bg-gray-800 text-gray-200" : "bg-white"
-      } rounded h-full p-6 overflow-y-auto`}
+      } rounded h-full p-2 md:p-6 overflow-y-auto`}
     >
       <h1 className="text-2xl font-semibold mb-4">
         User&apos;s List on Tweeter
