@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { PROFILE_ICON_URL } from "../../api/BaseURL";
 import AuthController from "../../api/auth";
 import useApi from "../../hooks/useApi";
@@ -13,11 +13,14 @@ export default function Avatars({ username, setAvatarPopup }) {
 
   //section to close the popup when user clicks outside of the avatar component
   const ref = useRef(null);
-  const handleClickOutside = (event) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setAvatarPopup(false);
-    }
-  };
+  const handleClickOutside = useCallback(
+    (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setAvatarPopup(false);
+      }
+    },
+    [setAvatarPopup]
+  );
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -25,7 +28,7 @@ export default function Avatars({ username, setAvatarPopup }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setAvatarPopup]);
+  }, [handleClickOutside]);
 
   const imageUrls = [];
 
