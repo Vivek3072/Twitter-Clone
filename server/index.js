@@ -7,6 +7,7 @@ connectDb();
 
 const port = process.env.PORT || 5000;
 
+const healthRouter = require("./api/routes/health.routes");
 const authRouter = require("./api/routes/main.routes");
 const tweetRouter = require("./api/routes/tweet.routes");
 
@@ -26,6 +27,7 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
+app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/tweets", tweetRouter);
 
