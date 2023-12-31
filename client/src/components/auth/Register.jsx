@@ -3,6 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
 import AuthController from "../../api/auth";
 import useToken from "../../hooks/useToken";
+import Logo from "../../assets/Logo.svg";
 
 const Registration = () => {
   const [username, setUsername] = useState("");
@@ -65,18 +66,32 @@ const Registration = () => {
   if (token) return <Navigate to="/" replace={true} />;
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="m-auto w-[90%] md:w-96 p-6 bg-white rounded shadow-lg">
-        <h1 className="text-2xl font-semibold mb-4">Registration</h1>
+    <div className="w-full flex flex-col md:flex-row h-screen bg-gray-800 px-5 md:px-20 lg:px-40">
+      <div className="h-fit md:h-full py-3  w-full flex flex-col items-start justify-center">
+        <div className="flex flex-row items-center">
+          <img src={Logo} alt="Tweeter" className="w-16 h-16" />
+          <div className="text-2xl md:text-4xl font-medium text-white ml-2">
+            Welcome to tweeter!
+          </div>
+        </div>
+        <p className="text-gray-400">
+          A beautiful application where users can post tweet, follow, chat with
+          people and a lot more!
+        </p>
+      </div>
+      <div className="m-auto w-full p-6 bg-gradient-to-r from-[#121D2D] to-[#0C111C] rounded shadow-lg">
+        <h1 className="text-2xl text-white font-semibold mb-4">
+          Register yourself
+        </h1>
         <form onSubmit={handleRegister}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium">
+            <label htmlFor="email" className="block text-gray-400 font-medium">
               Email
             </label>
             <input
               type="email"
               id="email"
-              className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
+              className="bg-gray-800 focus:bg-gray-700 text-white mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -84,14 +99,14 @@ const Registration = () => {
           <div className="mb-4">
             <label
               htmlFor="username"
-              className="block text-gray-700 font-medium"
+              className="block text-gray-400 font-medium"
             >
               Username
             </label>
             <input
               type="text"
               id="username"
-              className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
+              className="bg-gray-800 focus:bg-gray-700 text-white mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -99,14 +114,14 @@ const Registration = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-gray-700 font-medium"
+              className="block text-gray-400 font-medium"
             >
               Password
             </label>
             <input
               type="password"
               id="password"
-              className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
+              className="bg-gray-800 focus:bg-gray-700 text-white mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -114,14 +129,14 @@ const Registration = () => {
           <div className="mb-4">
             <label
               htmlFor="confirmPassword"
-              className="block text-gray-700 font-medium"
+              className="block text-gray-400 font-medium"
             >
               Confirm Password
             </label>
             <input
               type="password"
               id="confirmPassword"
-              className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
+              className="bg-gray-800 focus:bg-gray-700 text-white mt-1 p-2 w-full border rounded focus:outline-none focus:ring"
               value={confirm_password}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -136,11 +151,11 @@ const Registration = () => {
             Register
           </button>
         </form>
-        <div className="text-center my-3">
+        <div className="text-center text-gray-400 my-3">
           Already an User?
           <Link
             to="/login"
-            className="text-blue-500 hover:text-blue-700 hover:underline"
+            className="text-blue-500 hover:text-blue-700 hover:underline ml-1"
           >
             Login
           </Link>
