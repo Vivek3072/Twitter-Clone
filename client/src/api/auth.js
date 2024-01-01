@@ -1,10 +1,10 @@
 import client from "./client";
 
 export default class AuthController {
-  static async getAllUsers() {
-    const user = await client.get("/auth/all");
-    return user;
-  }
+  // static async getAllUsers() {
+  //   const user = await client.get("/auth/all");
+  //   return user;
+  // }
   static async login(data) {
     const user = await client.post("/auth/login", data);
     return user;
@@ -28,5 +28,9 @@ export default class AuthController {
   static async updatePicture(data) {
     const picture = await client.put("/auth/update-picture", data);
     return picture;
+  }
+  static async searchUsers(query) {
+    const users = await client.get(`/auth/users?search=${query}`);
+    return users;
   }
 }

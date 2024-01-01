@@ -12,25 +12,28 @@ const UserList = () => {
   const { isDarkMode } = useTheme();
 
   const [allUsers, setAllUsers] = useState([]);
+  const [search, setSearch] = useState("");
+
   const {
     res: allUsersResp,
     data: allUsersData,
     error,
     loading,
     networkError,
-    request: getAllUsers,
-  } = useApi(AuthController.getAllUsers);
+    request: searchUsers,
+  } = useApi(AuthController.searchUsers);
 
-  const getAllUsersFun = async () => {
+  const getAllUsersFun = async (query) => {
     try {
-      await getAllUsers();
+      await searchUsers(query);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
+
   useEffect(() => {
-    getAllUsersFun();
-  }, []);
+    getAllUsersFun(search);
+  }, [search]);
 
   useEffect(() => {
     if (!networkError && !error && allUsersData && allUsersResp && !loading) {
@@ -139,7 +142,34 @@ const UserList = () => {
       <h1 className="text-2xl font-semibold mb-4">
         User&apos;s List on Tweeter
       </h1>
+      <div className="mmt-3 mb-5">
+        <input
+          type="text"
+          placeholder="Search users by their username..."
+          className={`${
+            isDarkMode
+              ? "bg-gray-800 text-white"
+              : "bg-white text-gray-600 border border-gray-400"
+          } mt-1 p-3 w-full border focus:border-primary rounded-full focus:outline-none`}
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            getAllUsersFun(e.target.value);
+          }}
+        />
+      </div>
       <ul className="space-y-4">
+        {allUsers.length <= 0 && (
+          <div className="flex flex-col justify-center">
+            <div className="text-xl text-center">No such user found!</div>
+            <button
+              onClick={() => setSearch("")}
+              className="border border-blue-500 rounded-lg px-5 py-2 mx-auto transition hover:bg-blue-500 hover:text-white my-3"
+            >
+              View All Users
+            </button>
+          </div>
+        )}
         {allUsers && !loading ? (
           allUsers?.map((user) => (
             <li
@@ -154,11 +184,11 @@ const UserList = () => {
                 <img
                   src={user.profilePic}
                   alt={user.username}
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 rounded-full border"
                 />
                 <div className="ml-2">
                   <p className="text-lg font-semibold">{user.username}</p>
-                  <p className="text-gray-600">{user.email}</p>
+                  <p className="text-gray-400">{user.email}</p>
                 </div>
               </div>
 
@@ -168,7 +198,9 @@ const UserList = () => {
                     (data) => data.username === user.username
                   ) ? (
                     <div
-                      className="h-fit my-auto bg-red-500 text-white px-5 py-1 rounded-full hover:cursor-pointer transition-all duration-300"
+                      className={`h-fit my-auto bg-red-500 text-white px-5 py-1 rounded-full hover:cursor-pointer transition-all duration-300 ${
+                        unfollowLoading && "bg-opacity-50"
+                      }`}
                       onClick={() => handleRemoveUser(user.username)}
                     >
                       Unfollow
