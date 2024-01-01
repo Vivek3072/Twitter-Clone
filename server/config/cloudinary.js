@@ -6,8 +6,8 @@ cloudinary.config({
   secure: true,
 });
 
-console.log("CLOUDINARY SDK CREDENTIALS");
-console.log(cloudinary.config().cloud_name);
-console.log(cloudinary.config().api_key);
+// console.log("CLOUDINARY SDK CREDENTIALS");
+// console.log(cloudinary.config().cloud_name);
+// console.log(cloudinary.config().api_key);
 
 module.exports = cloudinary;

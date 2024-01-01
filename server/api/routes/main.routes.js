@@ -9,6 +9,7 @@ const {
   getAllUsers,
   unfollowUser,
   updatePicture,
+  searchUsers,
 } = require("../controllers/UserController");
 const validateToken = require("../../middlewares/ValidateToken");
 
@@ -19,5 +20,6 @@ router.post("/login", loginUser);
 router.post("/follow", validateToken, followUsers);
 router.post("/unfollow", validateToken, unfollowUser);
 router.get("/current", validateToken, currentUser);
+router.get("/search", validateToken, searchUsers);
 
 module.exports = router;

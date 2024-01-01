@@ -32,5 +32,5 @@ app.use("/api/auth", authRouter);
 app.use("/api/tweets", tweetRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on`, `http://localhost:${port}`.cyan);
+  console.log('➜ '.green,`Server is running on`.bold, `http://localhost:${port}`.cyan);
 });

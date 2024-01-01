@@ -110,6 +110,43 @@ class UserController {
     else return res.status(200).json({ user });
   });
 
+  // /api/auth/search?search=vivek
+  static searchUsers = asyncHandler(async (req, res) => {
+    if (!req.query.search)
+      return ErrorRespond(res, 404, "Please provide a query to search!");
+
+    if (req.query.search.length < 2)
+      return ErrorRespond(res, 404, "Please provide atleast two characters!");
+
+    const keyword = req.query.search
+      ? {
+          /* 
+          The $or operator performs a logical OR operation on an array of one or more <expressions> and selects the documents that satisfy at least one of the <expressions>.
+
+          $regex - Provides regular expression capabilities for pattern matching strings in queries.
+          $options - Specifies options that control the behavior of regular expression searches on string values.
+          
+          options = i, represent we want the seach to be case insensitive
+           */
+          $or: [
+            { username: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    // here we are finding all the users related with the keyword in search query of request
+    const searchedUsers = await User.find(keyword)
+      .find({
+        _id: { $ne: req.user.id }, // return all except the current user who is searching
+      })
+      .select("username email profilePic -_id"); // only returning the specific results to the user
+
+    if (!searchedUsers) return ErrorRespond(res, 400, "Cannot find anything!");
+
+    res.status(200).send(searchedUsers);
+  });
+
   static async updatePicture(req, res) {
     try {
       const { username, profilePic } = req.body;
