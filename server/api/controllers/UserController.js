@@ -112,11 +112,11 @@ class UserController {
 
   // /api/auth/search?search=vivek
   static searchUsers = asyncHandler(async (req, res) => {
-    if (!req.query.search)
-      return ErrorRespond(res, 404, "Please provide a query to search!");
+    // if (!req.query.search)
+    //   return ErrorRespond(res, 404, "Please provide a query to search!");
 
-    if (req.query.search.length < 2)
-      return ErrorRespond(res, 404, "Please provide atleast two characters!");
+    // if (req.query.search.length < 2)
+    //   return ErrorRespond(res, 404, "Please provide atleast two characters!");
 
     const keyword = req.query.search
       ? {
@@ -142,7 +142,7 @@ class UserController {
       })
       .select("username email profilePic -_id"); // only returning the specific results to the user
 
-    if (!searchedUsers) return ErrorRespond(res, 400, "Cannot find anything!");
+    if (!searchedUsers) return ErrorRespond(res, 400, "Cannot find users!");
 
     res.status(200).send(searchedUsers);
   });
