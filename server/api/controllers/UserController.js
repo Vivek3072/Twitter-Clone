@@ -7,16 +7,17 @@ const generateRandomNum = require("../../helpers/generateRandomNum");
 const Tweet = require("../../models/TweetModel");
 
 class UserController {
-  static getAllUsers = asyncHandler(async (req, res) => {
-    try {
-      const users = await User.find();
-      if (!users) return ErrorRespond(res, 400, "Users not found!");
-      return res.status(200).send(users);
-    } catch (err) {
-      console.error(err);
-      return ErrorRespond(res, 500, "Internal server error");
-    }
-  });
+  // static getAllUsers = asyncHandler(async (req, res) => {
+  //   try {
+  //     const users = await User.find();
+  //     if (!users) return ErrorRespond(res, 400, "Users not found!");
+  //     return res.status(200).send(users);
+  //   } catch (err) {
+  //     console.error(err);
+  //     return ErrorRespond(res, 500, "Internal server error");
+  //   }
+  // });
+
   static registerUser = asyncHandler(async (req, res) => {
     const { username, email, password, confirm_password } = req.body;
 
@@ -130,7 +131,7 @@ class UserController {
            */
           $or: [
             { username: { $regex: req.query.search, $options: "i" } },
-            { email: { $regex: req.query.search, $options: "i" } },
+            // { email: { $regex: req.query.search, $options: "i" } },
           ],
         }
       : {};

@@ -20,6 +20,6 @@ router.post("/follow", validateToken, followUsers);
 router.post("/unfollow", validateToken, unfollowUser);
 router.get("/current", validateToken, currentUser);
 router.get("/users", validateToken, searchUsers);
-router.get("/all", validateToken, getAllUsers);
+// router.get("/all", validateToken, getAllUsers);
 
 module.exports = router;
