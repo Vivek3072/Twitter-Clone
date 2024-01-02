@@ -6,7 +6,7 @@ const {
   loginUser,
   currentUser,
   followUsers,
-  getAllUsers,
+  // getAllUsers,
   unfollowUser,
   updatePicture,
   searchUsers,

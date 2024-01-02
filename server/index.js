@@ -10,6 +10,7 @@ const port = process.env.PORT || 5000;
 const healthRouter = require("./api/routes/health.routes");
 const authRouter = require("./api/routes/main.routes");
 const tweetRouter = require("./api/routes/tweet.routes");
+const chatRouter = require("./api/routes/chat.routes");
 
 const app = express();
 const corsOptions = {
@@ -30,7 +31,12 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/tweets", tweetRouter);
+app.use("/api/chat", chatRouter);
 
 app.listen(port, () => {
-  console.log('➜ '.green,`Server is running on`.bold, `http://localhost:${port}`.cyan);
+  console.log(
+    "➜ ".green,
+    `Server is running on`.bold,
+    `http://localhost:${port}`.cyan
+  );
 });
