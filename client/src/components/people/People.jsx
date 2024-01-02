@@ -5,6 +5,7 @@ import useToken from "../../hooks/useToken";
 import UserContext from "../../hooks/UserContext";
 import UserLoader from "../loader/UserLoader";
 import { useTheme } from "../../hooks/ThemeContext";
+import { MdClose, MdSearch } from "react-icons/md";
 
 const UserList = () => {
   const { userData, setUserData } = useContext(UserContext);
@@ -142,22 +143,37 @@ const UserList = () => {
       <h1 className="text-2xl font-semibold mb-4">
         User&apos;s List on Tweeter
       </h1>
-      <div className="mmt-3 mb-5">
+      <div
+        className={`${
+          isDarkMode
+            ? "bg-gray-800 text-white"
+            : "bg-white text-gray-600 border border-gray-400"
+        } my-3 px-2 w-full flex flex-row items-center justify-between border focus:border-primary rounded-full focus:outline-none`}
+      >
         <input
           type="text"
           placeholder="Search users by their username..."
           className={`${
-            isDarkMode
-              ? "bg-gray-800 text-white"
-              : "bg-white text-gray-600 border border-gray-400"
-          } mt-1 p-3 w-full border focus:border-primary rounded-full focus:outline-none`}
+            isDarkMode ? "bg-gray-800 text-white" : "bg-white text-gray-600"
+          } p-3 h-full w-full rounded-full focus:outline-none`}
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
             getAllUsersFun(e.target.value);
           }}
         />
+
+        {search && search.length > 0 ? (
+          <div className="cursor-pointer bg-primary rounded-full p-2">
+            <MdClose onClick={() => setSearch("")} />
+          </div>
+        ) : (
+          <div className="cursor-pointer bg-primary rounded-full p-2">
+            <MdSearch className="text-xl text-white" />
+          </div>
+        )}
       </div>
+
       <ul className="space-y-4">
         {allUsers.length <= 0 && (
           <div className="flex flex-col justify-center">

@@ -7,12 +7,13 @@ import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import Registration from "./components/auth/Register.jsx";
 import Login from "./components/auth/Login.jsx";
 import Protected from "./utils/Protected.jsx";
-import Message from "./components/message/Message";
 import Profile from "./components/profile/Profile";
 import People from "./components/people/People";
 import ContextLayout from "./layout/ContextLayout";
 import { ThemeProvider } from "./hooks/ThemeContext";
 import ErrorPage from "./components/error/ErrorPage";
+import ChatList from "./components/chat/ChatList.jsx";
+import ChatMessages from "./components/chat/ChatMessages.jsx";
 
 if (process.env.NODE_ENV === "production") {
   console.log = () => {};
@@ -45,11 +46,23 @@ const router = createBrowserRouter([
     element: (
       <AppLayout>
         <Protected>
-          <Message />
+          <ChatList />
         </Protected>
       </AppLayout>
     ),
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/message/:id",
+    element: (
+      <AppLayout>
+        <Protected>
+          <ChatMessages />
+        </Protected>
+      </AppLayout>
+    ),
+    errorElement: <ErrorPage />,
+    children: [],
   },
   {
     path: "/profile",
