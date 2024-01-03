@@ -141,7 +141,7 @@ class UserController {
       .find({
         _id: { $ne: req.user.id }, // return all except the current user who is searching
       })
-      .select("username email profilePic -_id"); // only returning the specific results to the user
+      .select("username email profilePic"); // only returning the specific results to the user
 
     if (!searchedUsers) return ErrorRespond(res, 400, "Cannot find users!");
 
