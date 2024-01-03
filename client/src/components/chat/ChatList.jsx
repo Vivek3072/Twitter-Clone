@@ -6,7 +6,7 @@ import useApi from "../../hooks/useApi";
 import UserContext from "../../hooks/UserContext";
 import SearchUsers from "./SearchUsers";
 import NewGroupModal from "./NewGroupModal";
-import { getSenderUsername } from "../../api/config/getsender";
+import { getSenderUsername } from "../../api/config/getSender";
 
 const dateOptions = {
   year: "numeric",
