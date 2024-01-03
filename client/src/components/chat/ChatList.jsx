@@ -3,10 +3,10 @@ import { useTheme } from "../../hooks/ThemeContext";
 import { useContext, useEffect, useState } from "react";
 import ChatController from "../../api/chat";
 import useApi from "../../hooks/useApi";
-import { getSenderUsername } from "../../api/config.js/getsender";
 import UserContext from "../../hooks/UserContext";
 import SearchUsers from "./SearchUsers";
 import NewGroupModal from "./NewGroupModal";
+import { getSenderUsername } from "../../api/config/getsender";
 
 const dateOptions = {
   year: "numeric",
