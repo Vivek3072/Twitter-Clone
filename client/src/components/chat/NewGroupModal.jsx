@@ -1,10 +1,10 @@
 import { MdClose } from "react-icons/md";
 import { useTheme } from "../../hooks/ThemeContext";
 import Input from "../utils/Input";
-import useUserApi from "../../api/controller/useUserApi";
+import useUserApi from "../../api/services/useUserApi";
 import { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
-import ChatController from "../../api/chat";
+import ChatController from "../../api/controllers/chat";
 import { useNavigate } from "react-router-dom";
 
 export default function NewGroupModal({ newGroupPopup, setNewGroupPopup }) {

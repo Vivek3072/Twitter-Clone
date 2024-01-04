@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useApi from "../../../hooks/useApi";
-import ChatController from "../../chat";
+import ChatController from "../../controllers/chat";
 import { useNavigate } from "react-router-dom";
 
 const useChat = () => {

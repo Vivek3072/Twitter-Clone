@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import TweetsController from "../../api/tweets";
+import TweetsController from "../../api/controllers/tweets";
 import useApi from "../../hooks/useApi";
 import { TbBrandTwitter } from "react-icons/tb";
 import { MdOutlineFileUpload } from "react-icons/md";

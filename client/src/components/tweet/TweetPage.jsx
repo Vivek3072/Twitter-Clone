@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PostTweet from "./PostTweet";
 import TweetCard from "./TweetCard";
-import TweetsController from "../../api/tweets";
+import TweetsController from "../../api/controllers/tweets";
 import useApi from "../../hooks/useApi";
 import TweetCardLoader from "../loader/TweetCardLoader";
 import { useTheme } from "../../hooks/ThemeContext";

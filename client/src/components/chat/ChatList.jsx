@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../../hooks/ThemeContext";
 import { useContext, useEffect, useState } from "react";
-import ChatController from "../../api/chat";
+import ChatController from "../../api/controllers/chat";
 import useApi from "../../hooks/useApi";
 import UserContext from "../../hooks/UserContext";
 import SearchUsers from "./SearchUsers";

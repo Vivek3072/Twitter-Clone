@@ -1,8 +1,8 @@
 import UserLoader from "../loader/UserLoader";
 import { useTheme } from "../../hooks/ThemeContext";
 import Input from "../utils/Input";
-import useUserApi from "../../api/controller/useUserApi";
-import useChat from "../../api/controller/chat/useChat";
+import useUserApi from "../../api/services/useUserApi";
+import useChat from "../../api/services/chat/useChat";
 
 const SearchUsers = () => {
   const { isDarkMode } = useTheme();

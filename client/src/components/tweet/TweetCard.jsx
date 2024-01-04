@@ -4,7 +4,7 @@ import { MdShare } from "react-icons/md";
 // import AuthController from "../../api/auth";
 import useApi from "../../hooks/useApi";
 import useToken from "../../hooks/useToken";
-import TweetsController from "../../api/tweets";
+import TweetsController from "../../api/controllers/tweets";
 import Toast from "../utils/Toast";
 import UserContext from "../../hooks/UserContext";
 import { useTheme } from "../../hooks/ThemeContext";

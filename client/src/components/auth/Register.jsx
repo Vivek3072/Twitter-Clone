@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import useApi from "../../hooks/useApi";
-import AuthController from "../../api/auth";
+import AuthController from "../../api/controllers/auth";
 import useToken from "../../hooks/useToken";
 import Logo from "../../assets/Logo.svg";
 

@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { PROFILE_ICON_URL } from "../../api/BaseURL";
-import AuthController from "../../api/auth";
+import AuthController from "../../api/controllers/auth";
 import useApi from "../../hooks/useApi";
 import UserContext from "../../hooks/UserContext";
 import Toast from "../utils/Toast";

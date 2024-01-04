@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import useApi from "../../hooks/useApi";
-import AuthController from "../../api/auth";
+import AuthController from "../../api/controllers/auth";
 import useToken from "../../hooks/useToken";
 import UserContext from "../../hooks/UserContext";
 import UserLoader from "../loader/UserLoader";

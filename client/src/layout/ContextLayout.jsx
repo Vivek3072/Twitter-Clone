@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import UserContext from "../hooks/UserContext";
 import useApi from "../hooks/useApi";
-import AuthController from "../api/auth";
+import AuthController from "../api/controllers/auth";
 
 export default function ContextLayout({ children }) {
   const [userData, setUserData] = useState([]);

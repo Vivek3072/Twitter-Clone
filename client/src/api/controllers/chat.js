@@ -1,4 +1,4 @@
-import client from "./client";
+import client from "../client";
 
 export default class ChatController {
   // Create or access/fetch One to One Chat

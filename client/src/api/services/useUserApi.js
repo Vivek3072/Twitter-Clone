@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useApi from "../../hooks/useApi";
-import AuthController from "../auth";
+import AuthController from "../controllers/auth";
 
 const useUserApi = () => {
   const [allUsers, setAllUsers] = useState([]);
