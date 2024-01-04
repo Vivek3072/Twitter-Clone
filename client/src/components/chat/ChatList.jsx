@@ -8,16 +8,6 @@ import SearchUsers from "./SearchUsers";
 import NewGroupModal from "./NewGroupModal";
 import { getSenderUsername } from "../../api/config/getSender";
 
-const dateOptions = {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "numeric",
-  minute: "numeric",
-  second: "numeric",
-  timeZone: "UTC",
-};
-
 const ChatList = () => {
   const { isDarkMode } = useTheme();
   const { userData } = useContext(UserContext);
@@ -54,6 +44,17 @@ const ChatList = () => {
   //Representing the time in proper format
   const handleDateFormat = (time) => {
     const dateObject = new Date(time);
+
+    const dateOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZone: "UTC",
+    };
+
     const formattedDate = dateObject.toLocaleString("en-US", dateOptions);
     return formattedDate;
   };
@@ -126,9 +127,7 @@ const ChatList = () => {
               </div>
               <div
                 className={
-                  isDarkMode
-                    ? "text-gray-300 text-sm"
-                    : "text-gray-800 text-xsm"
+                  isDarkMode ? "text-gray-300 text-sm" : "text-gray-800 text-sm"
                 }
               >
                 {handleDateFormat(chat?.createdAt)}

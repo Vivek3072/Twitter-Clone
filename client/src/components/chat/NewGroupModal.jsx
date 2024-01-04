@@ -76,8 +76,28 @@ export default function NewGroupModal({ newGroupPopup, setNewGroupPopup }) {
     }
   }, [loading, error, networkError, res, data, navigate]);
 
+  //THIS PART IS TO CLOSE THE OPUP WHEN A USER CLICKS OUTSIDE OF THE MODAL
+  // const ref = useRef(null);
+  // const handleClickOutside = useCallback(
+  //   (event) => {
+  //     if (ref.current && !ref.current.contains(event.target)) {
+  //       setNewGroupPopup(false);
+  //     }
+  //   },
+  //   [setNewGroupPopup]
+  // );
+
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [handleClickOutside]);
+
   return (
     <div
+      // ref={ref}
       className={`
     ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-200 text-black"}
     ${newGroupPopup ? "translate-x-0" : "translate-x-full"}
@@ -88,9 +108,10 @@ export default function NewGroupModal({ newGroupPopup, setNewGroupPopup }) {
         <div className="text-xl">Fill group details</div>
         <button
           onClick={() => setNewGroupPopup(!newGroupPopup)}
-          className="bg-primary hover:bg-primaryDark rounded-full p-2"
+          className="text-primary hover:text-primaryDark hover:bg-primary hover:bg-opacity-20 font-semibold rounded-full px-3 py-2 flex flex-row items-center"
         >
-          <MdClose className="text-xl" />
+          <span>Close</span>
+          <MdClose className="ml-1 text-xl" />
         </button>
       </div>
       <div className="my-5">
@@ -134,11 +155,11 @@ export default function NewGroupModal({ newGroupPopup, setNewGroupPopup }) {
               return (
                 <div
                   key={idx}
-                  className="flex flex-row items-center bg-gray-600 rounded-full px-3 py-2 w-fit mx-1"
+                  className="flex flex-row items-center bg-purple-700 rounded-full px-2 py-1 my-1 w-fit mx-1 text-white"
                 >
                   <div>{user.username}</div>
                   <div
-                    className="bg-black bg-opacity-30 rounded-full cursor-pointer ml-2 p-1"
+                    className="bg-black bg-opacity-40 rounded-full cursor-pointer ml-2 p-1"
                     onClick={() => removeSelectedUser(user)}
                   >
                     <MdClose />
