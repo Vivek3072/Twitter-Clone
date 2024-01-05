@@ -5,6 +5,7 @@ import AuthController from "../api/controllers/auth";
 
 export default function ContextLayout({ children }) {
   const [userData, setUserData] = useState([]);
+  const [chatsData, setChatsData] = useState([]);
 
   const {
     res: resp,
@@ -35,7 +36,9 @@ export default function ContextLayout({ children }) {
 
   return (
     <>
-      <UserContext.Provider value={{ userData, setUserData }}>
+      <UserContext.Provider
+        value={{ userData, setUserData, chatsData, setChatsData }}
+      >
         {children}
       </UserContext.Provider>
     </>

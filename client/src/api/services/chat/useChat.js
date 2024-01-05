@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useApi from "../../../hooks/useApi";
 import ChatController from "../../controllers/chat";
 import { useNavigate } from "react-router-dom";
@@ -44,6 +44,35 @@ const useChat = () => {
     navigate,
   ]);
 
+  //FETCHING ALL THE CHATS FOR LOGGED IN USER
+  const [allChats, setAllChats] = useState([]);
+  const {
+    res: allChatsResp,
+    data: allChatsData,
+    error,
+    loading,
+    networkError,
+    request: fetchChats,
+  } = useApi(ChatController.fetchChats);
+
+  const getAllChats = async () => {
+    try {
+      await fetchChats();
+    } catch (error) {
+      console.error("Error fetching chats:", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllChats();
+  }, []);
+
+  useEffect(() => {
+    if (!networkError && !error && allChatsResp && allChatsData && !loading) {
+      setAllChats(allChatsData);
+    }
+  }, [error, loading, networkError, allChatsResp, allChatsData]);
+
   return {
     accessChatLoading,
     accessChatError,
@@ -51,6 +80,9 @@ const useChat = () => {
     accessChatData,
     accessChatResp,
     handleAccessChat,
+    allChats,
+    setAllChats,
+    getAllChats,
   };
 };
 

@@ -1,45 +1,21 @@
 import { Link } from "react-router-dom";
 import { useTheme } from "../../hooks/ThemeContext";
 import { useContext, useEffect, useState } from "react";
-import ChatController from "../../api/controllers/chat";
-import useApi from "../../hooks/useApi";
 import UserContext from "../../hooks/UserContext";
 import SearchUsers from "./SearchUsers";
 import NewGroupModal from "./NewGroupModal";
 import { getSenderUsername } from "../../api/config/getSender";
+import useChat from "../../api/services/chat/useChat";
 
 const ChatList = () => {
   const { isDarkMode } = useTheme();
-  const { userData } = useContext(UserContext);
+  const { userData, setChatsData } = useContext(UserContext);
 
-  const [allChats, setAllChats] = useState([]);
-  const {
-    res: allChatsResp,
-    data: allChatsData,
-    error,
-    loading,
-    networkError,
-    request: fetchChats,
-  } = useApi(ChatController.fetchChats);
-
-  const getAllChats = async () => {
-    try {
-      await fetchChats();
-    } catch (error) {
-      console.error("Error fetching chats:", error);
-    }
-  };
+  const { allChats } = useChat();
 
   useEffect(() => {
-    getAllChats();
-  }, []);
-
-  useEffect(() => {
-    if (!networkError && !error && allChatsResp && allChatsData && !loading) {
-      // console.log(allChatsData, "allChatsResp");
-      setAllChats(allChatsData);
-    }
-  }, [error, loading, networkError, allChatsResp, allChatsData]);
+    setChatsData(allChats);
+  }, [allChats, setChatsData]);
 
   //Representing the time in proper format
   const handleDateFormat = (time) => {
@@ -110,18 +86,33 @@ const ChatList = () => {
                   />
                 )}
                 <div>
-                  <div className="text-lg ml-2">
-                    {chat?.isGroupChat
-                      ? chat?.chatName +
-                        " (" +
-                        // chat.users.map((user) => " " + user.username)
-                        chat.users.length +
-                        " participants" +
-                        ")"
-                      : getSenderUsername(userData, chat.users)}
-                  </div>
-                  <div className="text-sm font-medium ml-2">
-                    {chat?.latestMessage ? chat.latestMessage : "N/A"}
+                  {chat?.isGroupChat ? (
+                    <div className="text-lg ml-2">
+                      {chat.chatName}
+                      <span
+                        className={`text-sm ml-1 ${
+                          isDarkMode ? "text-gray-200" : "text-gray-700"
+                        }`}
+                      >
+                        ({chat.users?.length} participants)
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="text-lg ml-2">
+                      {getSenderUsername(userData, chat.users)}
+                    </div>
+                  )}
+                  <div className="text-[12px] text-gray-400 ml-2">
+                    {chat?.latestMessage ? (
+                      <div>
+                        <span className="text-white font-medium mr-1">
+                          {chat.latestMessage.sender.username} :
+                        </span>
+                        {chat.latestMessage.content}
+                      </div>
+                    ) : (
+                      "N/A"
+                    )}
                   </div>
                 </div>
               </div>

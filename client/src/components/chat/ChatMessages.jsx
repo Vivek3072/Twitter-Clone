@@ -1,33 +1,32 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTheme } from "../../hooks/ThemeContext";
 import { MdKeyboardBackspace, MdInfo, MdSend } from "react-icons/md";
+import useMessage from "../../api/services/chat/useMessage";
+import UserContext from "../../hooks/UserContext";
+// import { getSenderUsername } from "../../api/config/getSender";
 
 const ChatMessages = () => {
   const { id } = useParams();
-  const [messages, setMessages] = useState([]);
   const { isDarkMode } = useTheme();
+  const { userData, chatsData } = useContext(UserContext);
+
+  const currentChat = chatsData.find((chat) => chat._id === id);
+  // const getAnotherUser = currentChat.users.find((user)=>user.username === getSenderUsername(userData,currentChat.users))
+
+  // console.log(getAnotherUser, "getAnotherUser");
+
+  const {
+    messages,
+    handleGetMessages,
+    newMessage,
+    setNewMessage,
+    handleSendMessage,
+  } = useMessage();
 
   useEffect(() => {
-    const mockMessages = [
-      {
-        id: 1,
-        text: "Hello",
-        sender: "User1",
-        profilePic:
-          "https://xsgames.co/randomusers/assets/avatars/pixel/45.jpg",
-      },
-      {
-        id: 2,
-        text: "Hi there",
-        sender: "User2",
-        profilePic:
-          "https://xsgames.co/randomusers/assets/avatars/pixel/46.jpg",
-      },
-    ];
-
-    setMessages(mockMessages);
-  }, [id]);
+    handleGetMessages(id);
+  }, [id, newMessage]);
 
   return (
     <div
@@ -49,19 +48,55 @@ const ChatMessages = () => {
             alt=""
             className="w-8 h-8 rounded-full border"
           />
-          <div className="ml-2">User_{id}</div>
+          <div className="ml-2 text-sm">{currentChat?.chatName}</div>
         </div>
         <div className="text-primary font-medium cursor-pointer hover:bg-primary hover:bg-opacity-20 p-2 rounded-full">
           <MdInfo />
         </div>
-      </div>{" "}
-      <ul className="h-[300px] md:h-[80vh]">
-        {messages.map((message) => (
-          <li key={message.id}>
-            <strong>{message.sender}:</strong> {message.text}
-          </li>
-        ))}
+      </div>
+
+      <ul className="w-full p-2 h-[300px] md:h-[80vh] overflow-y-auto">
+        {messages &&
+          messages.map((message) => (
+            <li
+              key={message._id}
+              className={`${
+                message.sender?._id === userData._id
+                  ? "flex-row-reverse"
+                  : "flex-row"
+              } flex w-full justify-between`}
+            >
+              <div
+                className={`${
+                  message.sender?._id === userData._id
+                    ? "flex-row-reverse"
+                    : "flex-row"
+                } flex flex-row items-center  my-1`}
+                // className={`${
+                //   message.sender?._id === userData._id
+                //     ? "bg-primary rounded-br-[0px]"
+                //     : "bg-gray-500 rounded-bl-[0px]"
+                // } w-[250px] h-fit text-white rounded-2xl p-2 my-2 flex items-start`}
+              >
+                <img
+                  src={message.sender?.profilePic}
+                  alt=""
+                  className="w-6 h-6 rounded-full mt-auto border mx-1"
+                />
+                <div
+                  className={`${
+                    message.sender?._id === userData._id
+                      ? "bg-primary rounded-br-[0px]"
+                      : "bg-gray-500 rounded-bl-[0px]"
+                  } w-[200px] md:w-[250px] h-fit text-white rounded-2xl p-2 flex items-start text-sm md:text-base`}
+                >
+                  {message.content}
+                </div>
+              </div>
+            </li>
+          ))}
       </ul>
+
       <div className={`rounded-full flex flex-row justify-between`}>
         <textarea
           rows={1}
@@ -69,8 +104,13 @@ const ChatMessages = () => {
           className={`${
             isDarkMode ? "bg-gray-800 text-white" : "text-black"
           } border focus:outline-none rounded-full w-full p-3`}
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
         />
-        <button className="h-fit bg-primary hover:bg-primaryDark ml-2 text-white rounded-full px-5 py-5">
+        <button
+          className="h-fit bg-primary hover:bg-primaryDark ml-2 text-white rounded-full px-5 py-5"
+          onClick={() => handleSendMessage(newMessage, id)}
+        >
           <MdSend size={20} />
         </button>
       </div>
