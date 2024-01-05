@@ -1,25 +1,29 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTheme } from "../../hooks/ThemeContext";
 import { MdKeyboardBackspace, MdInfo, MdSend } from "react-icons/md";
 import useMessage from "../../api/services/chat/useMessage";
 import UserContext from "../../hooks/UserContext";
+import { socket } from "../../socket/socket";
 // import { getSenderUsername } from "../../api/config/getSender";
 
+var selected_chat_cmp;
 const ChatMessages = () => {
   const { id } = useParams();
+  selected_chat_cmp = id;
+
   const { isDarkMode } = useTheme();
   const { userData, chatsData } = useContext(UserContext);
 
   const currentChat = chatsData.find((chat) => chat._id === id);
   // const getAnotherUser = currentChat.users.find((user)=>user.username === getSenderUsername(userData,currentChat.users))
-
   // console.log(getAnotherUser, "getAnotherUser");
 
   const {
     messages,
     handleGetMessages,
     newMessage,
+    setMessages,
     setNewMessage,
     handleSendMessage,
   } = useMessage();
@@ -28,10 +32,51 @@ const ChatMessages = () => {
     handleGetMessages(id);
   }, [id, newMessage]);
 
+  useEffect(() => {
+    console.log(messages, "Log messages before rendering"); // Log messages before rendering
+  }, [messages]);
+
+  useEffect(() => {
+    console.log("hi");
+    const handleReceivedMessage = (newMessageRecieved) => {
+      console.log("hi2");
+      if (selected_chat_cmp === newMessageRecieved.chat._id) {
+        setMessages((msg) => [...msg, newMessageRecieved]);
+      }
+    };
+
+    socket.on("message received", handleReceivedMessage);
+
+    return () => {
+      socket.off("message received", handleReceivedMessage);
+    };
+  }, [setMessages]);
+
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    function onConnect() {
+      setIsConnected(!isConnected);
+    }
+
+    function onDisconnect() {
+      setIsConnected(!isConnected);
+    }
+
+    socket.emit("setup", userData);
+    socket.on("connection", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    return () => {
+      socket.off("connection", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, [isConnected, setIsConnected, userData]);
+
   return (
     <div
       className={`${
-        isDarkMode ? "bg-[#121D2D]" : "bg-gray-50"
+        isDarkMode ? "bg-[#121D2D]" : "bg-gray-100"
       } h-full rounded p-2`}
     >
       <div className="flex flex-row justify-between items-center my-3 border-b p-2">
@@ -81,13 +126,13 @@ const ChatMessages = () => {
                 <img
                   src={message.sender?.profilePic}
                   alt=""
-                  className="w-6 h-6 rounded-full mt-auto border mx-1"
+                  className="w-6 h-6 md:w-8 md:h-8 rounded-full mt-auto border mx-1"
                 />
                 <div
                   className={`${
                     message.sender?._id === userData._id
                       ? "bg-primary rounded-br-[0px]"
-                      : "bg-gray-500 rounded-bl-[0px]"
+                      : "bg-gray-400 rounded-bl-[0px]"
                   } w-[200px] md:w-[250px] h-fit text-white rounded-2xl p-2 flex items-start text-sm md:text-base`}
                 >
                   {message.content}

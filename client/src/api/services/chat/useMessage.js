@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useApi from "../../../hooks/useApi";
 import MessageController from "../../controllers/message";
+import { socket } from "../../../socket/socket";
 
 const useMessage = () => {
   const [messages, setMessages] = useState([]);
@@ -18,6 +19,7 @@ const useMessage = () => {
   const handleGetMessages = async (id) => {
     try {
       await fetchAllMessages(id);
+      socket.emit("join chat", id);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
@@ -34,7 +36,14 @@ const useMessage = () => {
       console.log(getMsgData, "getMsgData");
       setMessages(getMsgData);
     }
-  }, [getMsgResp, getMsgData, getMsgError, getMsgLoading, getMsgNetworkError]);
+  }, [
+    setMessages,
+    getMsgResp,
+    getMsgData,
+    getMsgError,
+    getMsgLoading,
+    getMsgNetworkError,
+  ]);
 
   const {
     res: newMsgResp,
@@ -62,7 +71,8 @@ const useMessage = () => {
       newMsgData
     ) {
       console.log(newMsgData, "newMsgData");
-    //   setMessages((msg) => [...msg, newMsgData]);
+      //   setMessages((msg) => [...msg, newMsgData]);
+      socket.emit("new message", newMsgData);
       setNewMessage("");
     }
   }, [
@@ -83,6 +93,7 @@ const useMessage = () => {
     getMsgLoading,
     getMsgNetworkError,
     handleGetMessages,
+    setMessages,
     newMessage,
     setNewMessage,
     handleSendMessage,
