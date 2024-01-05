@@ -1,7 +1,10 @@
-import validateToken from "../../middlewares/ValidateToken";
+const validateToken = require("../../middlewares/ValidateToken");
 
 const express = require("express");
-const { allMessages, sendMessage } = require("../controllers/messageControllers");
+const {
+  allMessages,
+  sendMessage,
+} = require("../controllers/message.controller");
 
 const router = express.Router();
 

@@ -11,6 +11,7 @@ const healthRouter = require("./api/routes/health.routes");
 const authRouter = require("./api/routes/main.routes");
 const tweetRouter = require("./api/routes/tweet.routes");
 const chatRouter = require("./api/routes/chat.routes");
+const messageRoutes = require("./api/routes/message.routes");
 
 const app = express();
 const corsOptions = {
@@ -32,6 +33,7 @@ app.use("/api/health", healthRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/tweets", tweetRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/message", messageRoutes);
 
 app.listen(port, () => {
   console.log(
