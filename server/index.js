@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cloudinary = require("./config/cloudinary");
+const { Server } = require("socket.io");
 
 const connectDb = require("./config/ConnectDB");
 connectDb();
@@ -35,10 +36,46 @@ app.use("/api/tweets", tweetRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRoutes);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(
     "➜ ".green,
     `Server is running on`.bold,
     `http://localhost:${port}`.cyan
   );
+});
+
+const io = new Server(server, {
+  pingTimeout: 60000,
+  cors: corsOptions,
+});
+
+io.on("connection", (socket) => {
+  console.log("➜ ".green, "Connected to socket.io");
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+
+  socket.on("setup", (userData) => {
+    console.log(userData._id, "USERDATA on server");
+    socket.join(userData._id);
+    socket.emit("CONNECTED");
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User joined the room ", room);
+  });
+
+  socket.on("new message", (newMessageRecieved) => {
+    console.log(newMessageRecieved?.chat?._id, "newmessage server");
+    var chat = newMessageRecieved.chat;
+
+    if (!chat.users) return console.log("chat.users not defined");
+
+    chat.users.forEach((user) => {
+      if (user._id === newMessageRecieved.sender._id)
+        return; // We do nothing if the message is sent by the current logged in user, we do not return that message back to him
+      else socket.in(user._id).emit("message received", newMessageRecieved); // Sending message in to the users whom loggedIn User have sent the message
+    });
+  });
 });

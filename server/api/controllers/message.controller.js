@@ -10,7 +10,7 @@ const ErrorRespond = require("../../helpers/ErrorRespond");
 const allMessages = asyncHandler(async (req, res) => {
   try {
     const chatId = req.params.chatId;
-    console.log(chatId, "chatId");
+    
     if (!chatId) return ErrorRespond(res, 400, "Chat ID not found!");
 
     const chats = await Chat.find({ _id: chatId });
