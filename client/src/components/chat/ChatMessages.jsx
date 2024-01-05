@@ -33,15 +33,9 @@ const ChatMessages = () => {
   }, [id, newMessage]);
 
   useEffect(() => {
-    console.log(messages, "Log messages before rendering"); // Log messages before rendering
-  }, [messages]);
-
-  useEffect(() => {
-    console.log("hi");
     const handleReceivedMessage = (newMessageRecieved) => {
-      console.log("hi2");
       if (selected_chat_cmp === newMessageRecieved.chat._id) {
-        setMessages((msg) => [...msg, newMessageRecieved]);
+        setMessages([...messages, newMessageRecieved]); //here using the functional way of updating the state lead to setting the state twice------ when using a callback with setMessages, React can encounter issues when it tries to batch updates. In some cases, this can lead to unexpected behavior, such as the callback being executed more than once.
       }
     };
 
@@ -50,7 +44,7 @@ const ChatMessages = () => {
     return () => {
       socket.off("message received", handleReceivedMessage);
     };
-  }, [setMessages]);
+  }, [messages, setMessages]);
 
   const [isConnected, setIsConnected] = useState(false);
 
