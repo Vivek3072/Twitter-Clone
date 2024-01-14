@@ -4,7 +4,10 @@ import { useContext, useEffect, useState } from "react";
 import UserContext from "../../hooks/UserContext";
 import SearchUsers from "./SearchUsers";
 import NewGroupModal from "./NewGroupModal";
-import { getSenderUsername } from "../../api/config/getSender";
+import {
+  getSenderPicture,
+  getSenderUsername,
+} from "../../api/config/getSender";
 import useChat from "../../api/services/chat/useChat";
 
 const ChatList = () => {
@@ -80,7 +83,7 @@ const ChatList = () => {
                   />
                 ) : (
                   <img
-                    src={chat.users[1].profilePic}
+                    src={getSenderPicture(userData, chat.users)}
                     alt={chat.username}
                     className="w-10 h-10 rounded-full border"
                   />

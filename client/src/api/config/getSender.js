@@ -3,3 +3,9 @@ export const getSenderUsername = (loggedInUser, users) => {
     ? users[1].username
     : users[0].username;
 };
+export const getSenderPicture = (loggedInUser, users) => {
+  console.log(loggedInUser, users, "get sender");
+  return users[0]._id === loggedInUser._id
+    ? users[1].profilePic
+    : users[0].profilePic;
+};

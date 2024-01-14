@@ -57,6 +57,7 @@ const useMessage = () => {
   const handleSendMessage = async (msg, chatId) => {
     try {
       await sendMessage({ content: msg, chatId: chatId });
+      setNewMessage("");
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
