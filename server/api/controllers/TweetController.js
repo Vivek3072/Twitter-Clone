@@ -131,6 +131,20 @@ class TweetController {
     }
   }
 
+  static async getIndivTweet(req, res) {
+    const tweet_id = req.params.id;
+    if (!tweet_id) return ErrorRespond(res, 404, "Tweet ID not found!");
+
+    try {
+      const tweet = await Tweet.findById(tweet_id);
+      if (!tweet) return ErrorRespond(res, 500, "Tweet not found!");
+
+      res.status(200).send(tweet);
+    } catch (error) {
+      return ErrorRespond(res, 400, error.message);
+    }
+  }
+
   static async deleteTweet(req, res) {
     try {
       const tweet_id = req.params.id;
