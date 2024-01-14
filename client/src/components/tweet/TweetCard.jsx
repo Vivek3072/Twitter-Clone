@@ -13,7 +13,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
   const { isDarkMode } = useTheme();
   const { userData } = useContext(UserContext);
   // console.log(tweets,"tweets");
-  
+
   const {
     _id: tweet_id,
     username,
@@ -21,7 +21,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
     createdAt,
     tweet_message,
     likes,
-    profilePic
+    profilePic,
   } = tweet;
 
   let postLikes = likes.length;
@@ -35,6 +35,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
   const formattedTimeString = formattedDate.toLocaleTimeString();
 
   const [toast, setToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState("Operation Successful!");
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(tweet_message);
@@ -77,6 +78,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
     ) {
       setIsEditing(false);
       setToast(true);
+      setToastMsg("Tweet edited!");
       console.log(editTweetsData, "editTweetsData");
     }
   }, [
@@ -129,6 +131,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
       console.log(deleteTweetsData, "DELETEDDATA");
       // setTweets(deleteTweetsData);
       setToast(true);
+      setToastMsg("Tweet deleted successfully!");
     }
   }, [
     deleteError,
@@ -171,6 +174,15 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
   //     console.log(followData?.message, "message");
   //   }
   // }, [followError, loading, networkError, followResp, followData]);
+
+  const copyTweetLink = (id) => {
+    setToast(true);
+    setToastMsg("Link copied to clipboard!");
+    navigator.clipboard.writeText(
+      `http://localhost:5173/tweet/${id}`
+      // `https://twitter-clone-zwb6.onrender.com/tweet/${id}`
+    );
+  };
 
   return (
     <>
@@ -240,7 +252,10 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
               <FaRegHeart />
               <span>{postLikes}</span>
             </div>
-            <div className="flex items-center space-x-1 cursor-pointer font-medium hover:text-green-500">
+            <div
+              className="flex items-center space-x-1 cursor-pointer font-medium hover:text-green-500"
+              onClick={() => copyTweetLink(tweet_id)}
+            >
               <MdShare />
               <span>12</span>
             </div>
@@ -284,7 +299,7 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
           )}
         </div>
       </div>
-      {toast && <Toast message="Operation Successfull!" type="success" />}
+      {toast && <Toast message={toastMsg} type="success" />}
     </>
   );
 };

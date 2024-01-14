@@ -9,6 +9,10 @@ export default class TweetsController {
     const tweets = await client.get("/tweets");
     return tweets;
   }
+  static async getIndivTweet(id) {
+    const tweet = await client.get(`/tweets/tweet/${id}`);
+    return tweet;
+  }
   static async getMyTweets(user) {
     const tweets = await client.get(`/tweets&user=${user}`);
     return tweets;

@@ -108,7 +108,13 @@ const ChatList = () => {
                   <div className="text-[12px] text-gray-400 ml-2">
                     {chat?.latestMessage ? (
                       <div>
-                        <span className="text-white font-medium mr-1">
+                        <span
+                          className={
+                            isDarkMode
+                              ? "text-gray-400 font-medium mr-1"
+                              : "text-white font-medium mr-1"
+                          }
+                        >
                           {chat.latestMessage.sender.username} :
                         </span>
                         {chat.latestMessage.content}

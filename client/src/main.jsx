@@ -14,6 +14,7 @@ import { ThemeProvider } from "./hooks/ThemeContext";
 import ErrorPage from "./components/error/ErrorPage";
 import ChatList from "./components/chat/ChatList.jsx";
 import ChatMessages from "./components/chat/ChatMessages.jsx";
+import IndividualTweet from "./components/tweet/IndividualTweet.jsx";
 
 if (process.env.NODE_ENV === "production") {
   console.log = () => {};
@@ -39,6 +40,17 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Registration />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/tweet/:tweet_id",
+    element: (
+      <AppLayout>
+        <Protected>
+          <IndividualTweet />
+        </Protected>
+      </AppLayout>
+    ),
     errorElement: <ErrorPage />,
   },
   {
