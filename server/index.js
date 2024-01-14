@@ -68,12 +68,12 @@ io.on("connection", (socket) => {
 
   socket.on("new message", (newMessageRecieved) => {
     console.log(newMessageRecieved?.chat?._id, "newmessage server");
-    var chat = newMessageRecieved.chat;
+    var chat = newMessageRecieved?.chat;
 
-    if (!chat.users) return console.log("chat.users not defined");
+    if (!chat?.users) return console.log("chat.users not defined");
 
     chat.users.forEach((user) => {
-      if (user._id === newMessageRecieved.sender._id)
+      if (user?._id === newMessageRecieved?.sender?._id)
         return; // We do nothing if the message is sent by the current logged in user, we do not return that message back to him
       else socket.in(user._id).emit("message received", newMessageRecieved); // Sending message in to the users whom loggedIn User have sent the message
     });
