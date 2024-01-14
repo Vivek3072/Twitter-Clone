@@ -179,8 +179,8 @@ const TweetCard = ({ tweet, tweets, setTweets }) => {
     setToast(true);
     setToastMsg("Link copied to clipboard!");
     navigator.clipboard.writeText(
-      `http://localhost:5173/tweet/${id}`
-      // `https://twitter-clone-zwb6.onrender.com/tweet/${id}`
+      // `http://localhost:5173/tweet/${id}`
+      `https://twitter-clone-zwb6.onrender.com/tweet/${id}`
     );
   };
 

@@ -19,8 +19,8 @@ const IndividualTweet = () => {
 
   const copyTweetLink = (id) => {
     navigator.clipboard.writeText(
-      `http://localhost:5173/tweet/${id}`
-      // `https://twitter-clone-zwb6.onrender.com/tweet/${id}`
+      // `http://localhost:5173/tweet/${id}`
+      `https://twitter-clone-zwb6.onrender.com/tweet/${id}`
     );
   };
   return (
