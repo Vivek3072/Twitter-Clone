@@ -12,12 +12,21 @@ class TweetController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+  static async getPaginatedTweets(req, res) {
+    try {
+      const results = res.paginatedResults;
+      res.status(200).json(results);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
 
   static async getMyTweets(req, res) {
     try {
-      const { username } = req.params;
-      const tweets = await Tweet.find({ username: username });
-      res.status(200).json({ tweets });
+      const userId = req.user.id;
+      const myTweets = await Tweet.findById(userId);
+      res.status(200).json({ myTweets });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
