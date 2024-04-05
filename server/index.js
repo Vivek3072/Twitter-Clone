@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cloudinary = require("./config/cloudinary");
 const { Server } = require("socket.io");
+const cron = require("node-cron");
 
 const connectDb = require("./config/ConnectDB");
 connectDb();
@@ -85,4 +86,10 @@ io.on("connection", (socket) => {
       else socket.in(user._id).emit("message received", newMessageRecieved); // Sending message in to the users whom loggedIn User have sent the message
     });
   });
+});
+
+// Calling the backend api every 14 minutes to prevent the render server from sleeping
+cron.schedule("*/10 * * * *", async () => {
+  await fetch("https://twitter-clone-backend-5jet.onrender.com/api/health");
+  console.log("A");
 });
